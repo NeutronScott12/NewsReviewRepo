@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+    news-review-backend:
+        container_name: 'news-review-backend'
+        restart: always
+        build: .
+        image: news-review-backend
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        ports:
+            - '4800:4800'
+
+    news-review-postgres:
+        image: onjin/alpine-postgres
+        container_name: news-review-postgres
+        restart: always
+        ports:
+            - '5555:5432'
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=news_review_db
+        volumes:
+            - 'news-review-postgres:/var/lib/postgresql/data'
+
+volumes:
+    news-review-postgres:
