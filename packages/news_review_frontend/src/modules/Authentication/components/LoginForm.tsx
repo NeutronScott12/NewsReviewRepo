@@ -1,8 +1,9 @@
 import React from 'react'
-import { useFormik, Formik, Form, Field } from 'formik'
+import { useFormik } from 'formik'
 
-import { BinaryStashAuthenticator } from '@thelasthurrah/binary-stash-authentication'
-import { Container, TextField } from '@mui/material'
+import { AuthenticationAPI } from '@thelasthurrah/authentication_api'
+import { Container, TextField, Button } from '@mui/material'
+import { loginValidation } from '../helpers/login_validation'
 
 interface ILoginFormValues {
 	email: string
@@ -10,66 +11,59 @@ interface ILoginFormValues {
 }
 
 export const LoginForm = () => {
-	// const formik = useFormik<ILoginFormValues>({
-	// 	initialValues: {
-	// 		email: '',
-	// 		password: '',
-	// 	},
-	// 	async onSubmit({ email, password }) {
-	// 		console.log(email, password)
-	// 	},
-	// })
+	const { handleSubmit, values, touched, errors, handleChange, dirty, isSubmitting } =
+		useFormik<ILoginFormValues>({
+			initialValues: {
+				email: '',
+				password: '',
+			},
+			validationSchema: loginValidation,
+			async onSubmit({ email, password }) {
+				console.log(email, password)
+				const response = await new AuthenticationAPI(
+					'http://localhost:4000/graphql',
+
+					'first-application'
+				)
+			},
+		})
 
 	return (
-		// <Container>
-		<div>
-			<h2>Login Form</h2>
-			{/* <Formik
-				initialValues={{
-					email: '',
-					password: '',
-				}}
-				onSubmit={async ({ email, password }: ILoginFormValues) => {
-					console.log(email, password)
-				}}
-			>
-				{({ values, handleChange, touched, errors }) => (
-					<Form>
-						<TextField
-							fullWidth
-							id="email"
-							label="Email"
-							value={values.email}
-							onChange={handleChange}
-							error={touched.email && Boolean(errors.email)}
-							helperText={touched.email && errors.email}
-						/>
-					</Form>
-				)}
-			</Formik> */}
-			{/* <form onSubmit={formik.handleSubmit}>
-				<TextField
-					fullWidth
-					id="email"
-					label="Email"
-					value={formik.values.email}
-					onChange={formik.handleChange}
-					error={formik.touched.email && Boolean(formik.errors.email)}
-					helperText={formik.touched.email && formik.errors.email}
-				/>
-				<TextField
-					fullWidth
-					id="password"
-					label="Password"
-					value={formik.values.password}
-					onChange={formik.handleChange}
-					error={formik.touched.password && Boolean(formik.errors.password)}
-					helperText={formik.touched.password && formik.errors.password}
-				/>
-				<button type="submit">Submit</button>
-			</form> */}
-		</div>
+		<Container>
+			<div>
+				<h2>Login Form</h2>
 
-		// </Container>
+				<form onSubmit={handleSubmit}>
+					<TextField
+						fullWidth
+						id="email"
+						label="Email"
+						value={values.email}
+						onChange={handleChange}
+						error={touched.email && Boolean(errors.email)}
+						helperText={touched.email && errors.email}
+					/>
+					<TextField
+						fullWidth
+						id="password"
+						label="Password"
+						value={values.password}
+						onChange={handleChange}
+						error={touched.password && Boolean(errors.password)}
+						helperText={touched.password && errors.password}
+					/>
+
+					<Button
+						disabled={isSubmitting || dirty === false}
+						color="primary"
+						variant="contained"
+						fullWidth
+						type="submit"
+					>
+						Submit
+					</Button>
+				</form>
+			</div>
+		</Container>
 	)
 }

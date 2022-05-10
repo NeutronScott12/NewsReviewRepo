@@ -4,7 +4,24 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "remove_all:node_modules": "npx rimraf ./**/node_modules",
+        "migrate:generate": "npx lerna run migrate:generate",
+        "docker:up": "npx lerna run docker:up",
+        "docker:down": "npx lerna run docker:down",
+        "docker:build": "npx lerna run docker:build",
+        "prisma:migrate": "npx lerna run prisma:migrate",
+        "prisma:generate": "npx lerna run prisma:generate",
+        "prisma:reset": "npx lerna run prisma:reset",
+        "remove:node_modules": "npx rimraf node_modules",
+        "pre-build": "npx lerna run prebuild",
+        "publish": "npx lerna run publish",
+        "build:server:bash": "npx lerna run build:bash",
+        "build:server": "npx lerna run build",
+        "test:server": "npx lerna run test",
+        "new-version": "lerna version --conventional-commits --yes",
+        "diff": "lerna diff",
+        "docker-up": "docker-compose up -d",
+        "setup": "npm run docker-up"
     },
     "keywords": [],
     "author": "",
@@ -20,6 +37,8 @@
             "packages/*"
         ],
         "nohoist": [
+            "**/@nestjs",
+            "**/@nestjs/**",
             "@graphql-codegen/**",
             "@prisma/client/**",
             "**/@prisma/client/**",

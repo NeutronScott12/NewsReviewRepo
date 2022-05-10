@@ -17,8 +17,12 @@ export const envVariablesSchema = Joi.object({
     GRAPHQL_PLAYGROUND: Joi.boolean().required().default(true),
 })
 
+console.log('ENV: ', ENV)
+
 export const configOptions: ConfigModuleOptions = {
-    envFilePath: ENV === 'development' ? '.env.development' : `.env.${ENV}`,
+    envFilePath: '.env.development',
+    // envFilePath:
+    //     ENV === 'development' || undefined ? '.env.development' : `.env.${ENV}`,
     isGlobal: true,
     cache: true,
     validationSchema: envVariablesSchema,

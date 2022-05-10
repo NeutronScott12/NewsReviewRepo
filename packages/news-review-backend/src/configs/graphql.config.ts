@@ -1,9 +1,13 @@
+import {
+    ApolloDriver,
+    ApolloDriverAsyncConfig,
+    ApolloDriverConfig,
+} from '@nestjs/apollo'
 import { ConfigService } from '@nestjs/config'
-import { GqlModuleAsyncOptions, GqlModuleOptions } from '@nestjs/graphql'
 import { join } from 'path/posix'
 
 export class GraphqlConfig extends ConfigService {
-    static getGraphqConfig(configService: ConfigService): GqlModuleOptions {
+    static getGraphqConfig(configService: ConfigService): ApolloDriverConfig {
         return {
             autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
             debug: configService.get('GRAPHQL_DEBUG'),
@@ -13,7 +17,8 @@ export class GraphqlConfig extends ConfigService {
     }
 }
 
-export const asyncGraphqlConfig: GqlModuleAsyncOptions = {
+export const asyncGraphqlConfig: ApolloDriverAsyncConfig = {
+    driver: ApolloDriver,
     imports: [ConfigService],
     useFactory: async (configService: ConfigService) =>
         GraphqlConfig.getGraphqConfig(configService),
