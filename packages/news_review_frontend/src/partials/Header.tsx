@@ -1,8 +1,12 @@
 import React from 'react'
+
 import { AppBar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
+import { Link, useNavigate } from 'react-router-dom'
 
 export const Header = () => {
+	const navigate = useNavigate()
+
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position="static">
@@ -17,9 +21,22 @@ export const Header = () => {
 						<MenuIcon />
 					</IconButton>
 					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-						New Review App
+						<Link to="/">New Review App</Link>
 					</Typography>
-					<Button color="inherit">Login</Button>
+					<Link to="/login">
+						<Button color="inherit">Login</Button>
+					</Link>
+
+					<Button
+						onClick={() => {
+							localStorage.removeItem('binary-stash-token')
+
+							navigate('/login', { replace: true })
+						}}
+						color="inherit"
+					>
+						Logout
+					</Button>
 				</Toolbar>
 			</AppBar>
 		</Box>

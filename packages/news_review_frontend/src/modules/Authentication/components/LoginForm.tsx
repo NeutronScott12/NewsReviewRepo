@@ -1,5 +1,6 @@
 import React from 'react'
 import { useFormik } from 'formik'
+import { useNavigate } from 'react-router-dom'
 
 import { AuthenticationAPI } from '@thelasthurrah/authentication_api'
 import { Container, TextField, Button } from '@mui/material'
@@ -11,6 +12,8 @@ interface ILoginFormValues {
 }
 
 export const LoginForm = () => {
+	const navigate = useNavigate()
+
 	const { handleSubmit, values, touched, errors, handleChange, dirty, isSubmitting } =
 		useFormik<ILoginFormValues>({
 			initialValues: {
@@ -20,11 +23,24 @@ export const LoginForm = () => {
 			validationSchema: loginValidation,
 			async onSubmit({ email, password }) {
 				console.log(email, password)
-				const response = await new AuthenticationAPI(
+				const response = new AuthenticationAPI(
 					'http://localhost:4000/graphql',
-
 					'first-application'
 				)
+
+				const result = await response.mutations.login({ email, password })
+
+				console.log(result)
+
+				if (result.data.login_user.success) {
+					console.log(result)
+
+					localStorage.setItem('binary-stash-token', result.data.login_user.token)
+
+					navigate('/', { replace: true })
+				} else {
+					console.log("Didn't work", result)
+				}
 			},
 		})
 
