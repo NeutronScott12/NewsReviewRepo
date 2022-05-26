@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { AuthenticationAPI } from '@thelasthurrah/authentication_api'
 import { Container, TextField, Button } from '@mui/material'
-import { loginValidation } from '../helpers/login_validation'
+import { loginValidation } from '../helpers/validations'
 
 interface ILoginFormValues {
 	email: string
@@ -14,35 +14,45 @@ interface ILoginFormValues {
 export const LoginForm = () => {
 	const navigate = useNavigate()
 
-	const { handleSubmit, values, touched, errors, handleChange, dirty, isSubmitting } =
-		useFormik<ILoginFormValues>({
-			initialValues: {
-				email: '',
-				password: '',
-			},
-			validationSchema: loginValidation,
-			async onSubmit({ email, password }) {
-				console.log(email, password)
-				const response = new AuthenticationAPI(
-					'http://localhost:4000/graphql',
-					'first-application'
-				)
+	const {
+		handleSubmit,
+		values,
+		touched,
+		errors,
+		handleChange,
+		dirty,
+		isSubmitting,
+	} = useFormik<ILoginFormValues>({
+		initialValues: {
+			email: '',
+			password: '',
+		},
+		validationSchema: loginValidation,
+		async onSubmit({ email, password }) {
+			console.log(email, password)
+			const response = new AuthenticationAPI(
+				'http://localhost:4000/graphql',
+				'first-application'
+			)
 
-				const result = await response.mutations.login({ email, password })
+			const result = await response.mutations.login({ email, password })
 
+			console.log(result)
+
+			if (result.data.login_user.success) {
 				console.log(result)
 
-				if (result.data.login_user.success) {
-					console.log(result)
+				localStorage.setItem(
+					'binary-stash-token',
+					result.data.login_user.token
+				)
 
-					localStorage.setItem('binary-stash-token', result.data.login_user.token)
-
-					navigate('/', { replace: true })
-				} else {
-					console.log("Didn't work", result)
-				}
-			},
-		})
+				navigate('/', { replace: true })
+			} else {
+				console.log("Didn't work", result)
+			}
+		},
+	})
 
 	return (
 		<Container>
