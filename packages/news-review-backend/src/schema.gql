@@ -2,10 +2,33 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Article {
-  """Example field (placeholder)"""
-  exampleField: Int!
+type StandardResponseModel {
+  success: Boolean!
+  message: String!
 }
+
+type UserEntity {
+  id: String!
+  username: String!
+  first_name: String!
+  last_name: String!
+  articles: [Article!]!
+}
+
+type Article {
+  """Article ID"""
+  id: String!
+  title: String!
+  body: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+  author: UserEntity!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type Review {
   """Example field (placeholder)"""
@@ -13,28 +36,44 @@ type Review {
 }
 
 type Query {
-  article(id: Int!): Article!
+  fetch_all_articles: [Article!]!
+  fetch_one_article(fetchArticleInput: FetchArticleInput!): Article!
   review(id: Int!): Review!
 }
 
+input FetchArticleInput {
+  id: String!
+  title: String!
+}
+
 type Mutation {
-  createArticle(createArticleInput: CreateArticleInput!): Article!
+  create_article(createArticleInput: CreateArticleInput!): Article!
   updateArticle(updateArticleInput: UpdateArticleInput!): Article!
-  removeArticle(id: Int!): Article!
+  removeArticle(removeArticleInput: RemoveArticleInput!): StandardResponseModel!
   createReview(createReviewInput: CreateReviewInput!): Review!
   updateReview(updateReviewInput: UpdateReviewInput!): Review!
   removeReview(id: Int!): Review!
 }
 
 input CreateArticleInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """Article Title"""
+  title: String!
+
+  """Body of the Article"""
+  body: String!
 }
 
 input UpdateArticleInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  """Article Title"""
+  title: String
+
+  """Body of the Article"""
+  body: String
+  id: String!
+}
+
+input RemoveArticleInput {
+  id: String!
 }
 
 input CreateReviewInput {

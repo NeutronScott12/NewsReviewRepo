@@ -1,42 +1,81 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql'
+import {
+    GqlAuthGuard,
+    StandardResponseModel,
+} from '@thelasthurrah/the-last-hurrah-shared'
+import { InternalServerErrorException, UseGuards } from '@nestjs/common'
+
 import { ArticleService } from '../services/article.service'
 import { Article } from '../entities/article.entity'
-import { CreateArticleInput } from '../dto/create-article.input'
-import { UpdateArticleInput } from '../dto/update-article.input'
+import { CreateArticleInput } from '../dto/inputs/create-article.input'
+import { UpdateArticleInput } from '../dto/inputs/update-article.input'
+import {
+    CurrentUser,
+    ICurrentUser,
+} from '@thelasthurrah/the-last-hurrah-shared'
+import { FetchArticleInput } from '../dto/inputs/fetch_article.input'
+import { RemoveArticleInput } from '../dto/inputs/remove-article.input'
 
 @Resolver(() => Article)
 export class ArticleResolver {
     constructor(private readonly articleService: ArticleService) {}
 
     @Mutation(() => Article)
-    createArticle(
+    create_article(
         @Args('createArticleInput') createArticleInput: CreateArticleInput,
+        @CurrentUser() user: ICurrentUser,
     ) {
-        return this.articleService.create(createArticleInput)
+        return this.articleService.create({
+            data: {
+                ...createArticleInput,
+                author: { connect: { id: user.id } },
+            },
+        })
     }
 
-    @Query(() => [Article], { name: 'article' })
-    findAll() {
-        return this.articleService.findAll()
+    @UseGuards(GqlAuthGuard)
+    @Query(() => [Article])
+    fetch_all_articles() {
+        return this.articleService.fetchMany({ include: { author: true } })
     }
 
-    @Query(() => Article, { name: 'article' })
-    findOne(@Args('id', { type: () => Int }) id: number) {
-        return this.articleService.findOne(id)
+    @Query(() => Article)
+    fetch_one_article(
+        @Args('fetchArticleInput') { id, title }: FetchArticleInput,
+    ) {
+        return this.articleService.fetchOne({
+            where: { OR: [{ id }, { title }] },
+        })
     }
 
     @Mutation(() => Article)
     updateArticle(
-        @Args('updateArticleInput') updateArticleInput: UpdateArticleInput,
+        @Args('updateArticleInput') { id, body, title }: UpdateArticleInput,
     ) {
-        return this.articleService.update(
-            updateArticleInput.id,
-            updateArticleInput,
-        )
+        return this.articleService.updateOne({
+            where: {
+                id,
+            },
+            data: {
+                title,
+                body,
+            },
+        })
     }
 
-    @Mutation(() => Article)
-    removeArticle(@Args('id', { type: () => Int }) id: number) {
-        return this.articleService.remove(id)
+    @Mutation(() => StandardResponseModel)
+    async removeArticle(
+        @Args('removeArticleInput') { id }: RemoveArticleInput,
+    ): Promise<StandardResponseModel> {
+        try {
+            await this.articleService.deleteOne({ where: { id } })
+
+            return {
+                success: true,
+                message: 'Article successfully deleted',
+            }
+        } catch (error) {
+            throw new InternalServerErrorException(error)
+        }
     }
 }

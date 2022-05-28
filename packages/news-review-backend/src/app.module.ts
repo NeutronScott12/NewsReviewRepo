@@ -9,6 +9,8 @@ import { ReviewModule } from './review/review.module'
 import { PrismaService } from './prisma/prisma.service'
 import { asyncGraphqlConfig } from './configs/graphql.config'
 import { configOptions } from './configs'
+import { UserModule } from './user/user.module'
+import { AuthModule } from './auth/auth.module'
 
 @Module({
     imports: [
@@ -16,6 +18,8 @@ import { configOptions } from './configs'
         GraphQLModule.forRootAsync(asyncGraphqlConfig),
         ArticleModule,
         ReviewModule,
+        UserModule,
+        AuthModule,
     ],
     controllers: [AppController],
     providers: [AppService, PrismaService],

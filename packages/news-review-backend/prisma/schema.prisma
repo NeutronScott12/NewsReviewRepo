@@ -12,7 +12,7 @@ datasource db {
 
 model User {
   id         String    @id @default(uuid())
-  username   String
+  username   String    @unique
   first_name String
   last_name  String
   created_at DateTime  @default(now())
@@ -22,12 +22,12 @@ model User {
 
 model Article {
   id         String   @id @default(uuid())
-  title      String
+  title      String   @unique
   body       String
   userId     String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  author     User     @relation(fields: [userId], references: [id])
+  author     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Review {

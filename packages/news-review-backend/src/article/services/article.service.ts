@@ -1,26 +1,65 @@
-import { Injectable } from '@nestjs/common'
-import { CreateArticleInput } from '../dto/create-article.input'
-import { UpdateArticleInput } from '../dto/update-article.input'
+import { Injectable, InternalServerErrorException } from '@nestjs/common'
+import { Prisma } from '@prisma/client'
+
+import { PrismaService } from '../../prisma/prisma.service'
 
 @Injectable()
 export class ArticleService {
-    create(createArticleInput: CreateArticleInput) {
-        return 'This action adds a new article'
+    constructor(private prismaService: PrismaService) {}
+
+    create(args: Prisma.ArticleCreateArgs) {
+        try {
+            return this.prismaService.article.create(args)
+        } catch (error) {
+            throw new InternalServerErrorException(error)
+        }
     }
 
-    findAll() {
-        return `This action returns all article`
+    fetchMany(args: Prisma.ArticleFindManyArgs) {
+        try {
+            return this.prismaService.article.findMany(args)
+        } catch (error) {
+            throw new InternalServerErrorException(error)
+        }
     }
 
-    findOne(id: number) {
-        return `This action returns a #${id} article`
+    fetchOne(args: Prisma.ArticleFindFirstArgs) {
+        try {
+            return this.prismaService.article.findFirst(args)
+        } catch (error) {
+            throw new InternalServerErrorException(error)
+        }
     }
 
-    update(id: number, updateArticleInput: UpdateArticleInput) {
-        return `This action updates a #${id} article`
+    updateOne(args: Prisma.ArticleUpdateArgs) {
+        try {
+            return this.prismaService.article.update(args)
+        } catch (error) {
+            throw new InternalServerErrorException(error)
+        }
     }
 
-    remove(id: number) {
-        return `This action removes a #${id} article`
+    updateMany(args: Prisma.ArticleUpdateManyArgs) {
+        try {
+            return this.prismaService.article.updateMany(args)
+        } catch (error) {
+            throw new InternalServerErrorException(error)
+        }
+    }
+
+    deleteOne(args: Prisma.ArticleDeleteArgs) {
+        try {
+            return this.prismaService.article.delete(args)
+        } catch (error) {
+            throw new InternalServerErrorException(error)
+        }
+    }
+
+    deleteMany(args: Prisma.ArticleDeleteManyArgs) {
+        try {
+            return this.prismaService.article.deleteMany(args)
+        } catch (error) {
+            throw new InternalServerErrorException(error)
+        }
     }
 }
