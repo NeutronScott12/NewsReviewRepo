@@ -1,8 +1,9 @@
 import React from 'react'
 import { useFormik } from 'formik'
-import { registerValidation } from '../helpers/validations'
-import { Button, Container, TextField } from '@mui/material'
 import { AuthenticationAPI } from '@thelasthurrah/authentication_api'
+import { Button, Container, TextField } from '@mui/material'
+
+import { registerValidation } from '../helpers/validations'
 
 export const RegisterForm = () => {
 	const {

@@ -7,6 +7,6 @@ import { PORT } from './constants'
 async function bootstrap() {
     const app = await NestFactory.create(AppModule)
     await app.listen(PORT)
-    startUpMessages(`${await app.getUrl()}/graphql`)
+    startUpMessages(`${await app.getUrl()}/graphql`, 'News Repo Backend')
 }
 bootstrap()
