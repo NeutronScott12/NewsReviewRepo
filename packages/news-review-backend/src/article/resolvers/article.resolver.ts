@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql'
 import {
-    GqlAuthGuard,
+    // GqlAuthGuard,
     StandardResponseModel,
 } from '@thelasthurrah/the-last-hurrah-shared'
 import { InternalServerErrorException, UseGuards } from '@nestjs/common'
@@ -15,6 +15,7 @@ import {
 } from '@thelasthurrah/the-last-hurrah-shared'
 import { FetchArticleInput } from '../dto/inputs/fetch_article.input'
 import { RemoveArticleInput } from '../dto/inputs/remove-article.input'
+import { GqlAuthGuard } from 'src/auth/guards'
 
 @Resolver(() => Article)
 export class ArticleResolver {

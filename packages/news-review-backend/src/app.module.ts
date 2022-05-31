@@ -16,10 +16,10 @@ import { AuthModule } from './auth/auth.module'
     imports: [
         ConfigModule.forRoot(configOptions),
         GraphQLModule.forRootAsync(asyncGraphqlConfig),
+        AuthModule,
         ArticleModule,
         ReviewModule,
         UserModule,
-        AuthModule,
     ],
     controllers: [AppController],
     providers: [AppService, PrismaService],
