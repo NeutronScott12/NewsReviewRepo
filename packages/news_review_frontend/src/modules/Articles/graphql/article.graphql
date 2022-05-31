@@ -1,0 +1,19 @@
+fragment ArticleFragment on Article {
+	id
+	title
+	body
+	created_at
+	updated_at
+	author {
+		id
+		username
+		first_name
+		last_name
+	}
+}
+
+query FetchAllArticles {
+	fetch_all_articles {
+		...ArticleFragment
+	}
+}

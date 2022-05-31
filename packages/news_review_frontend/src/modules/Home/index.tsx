@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { Container, Grid } from '@mui/material'
+import { ArticleFeedContainer } from '../Articles/containers/ArticleFeedContainer'
 import { AuthenticationAPI } from '@thelasthurrah/authentication_api'
 
 export const HomeLayout = () => {
@@ -21,7 +22,7 @@ export const HomeLayout = () => {
 			<h2>Home Layout</h2>
 			<Grid container spacing={2} columns={{ xs: 12, sm: 8, md: 12 }}>
 				<Grid style={{ background: 'red' }} item xs={12} sm={4} md={6}>
-					Articles
+					<ArticleFeedContainer />
 				</Grid>
 				<Grid style={{ background: 'blue' }} item xs={12} sm={4} md={6}>
 					Reviews
