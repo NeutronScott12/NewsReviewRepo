@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { useRoutes } from 'react-router'
+import { ArticleContainer } from '../modules/Articles/containers/ArticleContainer'
 
 import { LoginContainer } from '../modules/Authentication/containers/Login'
 import { RegisterContainer } from '../modules/Authentication/containers/Register'
@@ -18,6 +19,15 @@ export const SiteRouter = () => {
 		{
 			path: '/register',
 			element: <RegisterContainer />,
+		},
+		{
+			path: 'article/*',
+			children: [
+				{
+					path: ':title',
+					element: <ArticleContainer />,
+				},
+			],
 		},
 	])
 

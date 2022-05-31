@@ -17,3 +17,13 @@ query FetchAllArticles {
 		...ArticleFragment
 	}
 }
+
+input FetchArticleInput {
+	title: String
+}
+
+query FetchOneArticle($fetchArticleInput: FetchArticleInput!) {
+	fetch_one_article(fetchArticleInput: $fetchArticleInput) {
+		...ArticleFragment
+	}
+}

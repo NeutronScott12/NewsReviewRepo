@@ -41,7 +41,7 @@ export type CreateReviewInput = {
 };
 
 export type FetchArticleInput = {
-  id: Scalars['String'];
+  id?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
 };
 
@@ -148,6 +148,13 @@ export type FetchAllArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type FetchAllArticlesQuery = { __typename?: 'Query', fetch_all_articles: Array<{ __typename?: 'Article', id: string, title: string, body: string, created_at: any, updated_at: any, author: { __typename?: 'UserEntity', id: string, username: string, first_name: string, last_name: string } }> };
 
+export type FetchOneArticleQueryVariables = Exact<{
+  fetchArticleInput: FetchArticleInput;
+}>;
+
+
+export type FetchOneArticleQuery = { __typename?: 'Query', fetch_one_article: { __typename?: 'Article', id: string, title: string, body: string, created_at: any, updated_at: any, author: { __typename?: 'UserEntity', id: string, username: string, first_name: string, last_name: string } } };
+
 export const ArticleFragmentFragmentDoc = gql`
     fragment ArticleFragment on Article {
   id
@@ -197,3 +204,38 @@ export function useFetchAllArticlesLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type FetchAllArticlesQueryHookResult = ReturnType<typeof useFetchAllArticlesQuery>;
 export type FetchAllArticlesLazyQueryHookResult = ReturnType<typeof useFetchAllArticlesLazyQuery>;
 export type FetchAllArticlesQueryResult = Apollo.QueryResult<FetchAllArticlesQuery, FetchAllArticlesQueryVariables>;
+export const FetchOneArticleDocument = gql`
+    query FetchOneArticle($fetchArticleInput: FetchArticleInput!) {
+  fetch_one_article(fetchArticleInput: $fetchArticleInput) {
+    ...ArticleFragment
+  }
+}
+    ${ArticleFragmentFragmentDoc}`;
+
+/**
+ * __useFetchOneArticleQuery__
+ *
+ * To run a query within a React component, call `useFetchOneArticleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchOneArticleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchOneArticleQuery({
+ *   variables: {
+ *      fetchArticleInput: // value for 'fetchArticleInput'
+ *   },
+ * });
+ */
+export function useFetchOneArticleQuery(baseOptions: Apollo.QueryHookOptions<FetchOneArticleQuery, FetchOneArticleQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchOneArticleQuery, FetchOneArticleQueryVariables>(FetchOneArticleDocument, options);
+      }
+export function useFetchOneArticleLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchOneArticleQuery, FetchOneArticleQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchOneArticleQuery, FetchOneArticleQueryVariables>(FetchOneArticleDocument, options);
+        }
+export type FetchOneArticleQueryHookResult = ReturnType<typeof useFetchOneArticleQuery>;
+export type FetchOneArticleLazyQueryHookResult = ReturnType<typeof useFetchOneArticleLazyQuery>;
+export type FetchOneArticleQueryResult = Apollo.QueryResult<FetchOneArticleQuery, FetchOneArticleQueryVariables>;
