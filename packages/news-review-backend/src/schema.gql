@@ -42,7 +42,7 @@ type Query {
 }
 
 input FetchArticleInput {
-  id: String!
+  id: String
   title: String!
 }
 

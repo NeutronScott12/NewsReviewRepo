@@ -34,7 +34,7 @@ export class ArticleResolver {
         })
     }
 
-    @UseGuards(GqlAuthGuard)
+    // @UseGuards(GqlAuthGuard)
     @Query(() => [Article])
     fetch_all_articles() {
         return this.articleService.fetchMany({ include: { author: true } })
@@ -46,6 +46,7 @@ export class ArticleResolver {
     ) {
         return this.articleService.fetchOne({
             where: { OR: [{ id }, { title }] },
+            include: { author: true },
         })
     }
 
