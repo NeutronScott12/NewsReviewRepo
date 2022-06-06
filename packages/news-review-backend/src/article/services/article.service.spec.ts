@@ -40,6 +40,22 @@ describe('ArticleService', () => {
         expect(newArticle.title).toMatch(title)
     })
 
+    it('Find One Article', async () => {
+        const article = await articleService.fetchOne({
+            where: {
+                title,
+            },
+        })
+
+        expect(article.title).toMatch(title)
+    })
+
+    it('Find Many Articles', async () => {
+        const articles = await articleService.fetchMany({})
+
+        expect(articles.length).toBeGreaterThan(0)
+    })
+
     afterAll(async () => {
         await userService.deleteOne({ where: { username } })
     })

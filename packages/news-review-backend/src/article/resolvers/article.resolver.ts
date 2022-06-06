@@ -15,7 +15,7 @@ import {
 } from '@thelasthurrah/the-last-hurrah-shared'
 import { FetchArticleInput } from '../dto/inputs/fetch_article.input'
 import { RemoveArticleInput } from '../dto/inputs/remove-article.input'
-import { GqlAuthGuard } from 'src/auth/guards'
+import { GqlAuthGuard } from '../../auth/guards'
 
 @Resolver(() => Article)
 export class ArticleResolver {
