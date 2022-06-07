@@ -1,11 +1,17 @@
 import React from 'react'
 import { useFormik } from 'formik'
-import { AuthenticationAPI } from '@thelasthurrah/authentication_api'
+import { useBinaryMutations } from '@thelasthurrah/authentication_api'
 import { Button, Container, TextField } from '@mui/material'
 
 import { registerValidation } from '../helpers/validations'
+import { useErrorAndSuccess } from '../../../utils/hooks/errorAndSuccess'
+import { ErrorAlert } from '../../../partials/ErrorAlert'
 
 export const RegisterForm = () => {
+	const client = useBinaryMutations()
+	const { setErrorMessage, setError, checkError, errorMessage } =
+		useErrorAndSuccess()
+
 	const {
 		handleSubmit,
 		handleChange,
@@ -25,21 +31,23 @@ export const RegisterForm = () => {
 		async onSubmit(values) {
 			console.log(values)
 
-			const registerAPI = new AuthenticationAPI(
-				'http://localhost:4000/graphql',
-				'first-application'
-			)
+			try {
+				const { email, password, username, repeat_password } = values
 
-			const { email, password, username, repeat_password } = values
+				const response = await client.register({
+					email,
+					password,
+					username,
+					repeat_password,
+				})
 
-			const response = await registerAPI.mutations.register({
-				email,
-				password,
-				username,
-				repeat_password,
-			})
-
-			console.log(response)
+				console.log(response)
+			} catch (error) {
+				if (error instanceof Error) {
+					setErrorMessage(error.message)
+					setError(true)
+				}
+			}
 		},
 	})
 
@@ -47,7 +55,10 @@ export const RegisterForm = () => {
 		<Container>
 			<div>
 				<h2>Register Form</h2>
-
+				<ErrorAlert
+					errorMessage={errorMessage}
+					checkError={checkError}
+				/>
 				<form onSubmit={handleSubmit}>
 					<TextField
 						fullWidth
