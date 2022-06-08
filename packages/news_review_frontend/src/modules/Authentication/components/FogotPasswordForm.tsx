@@ -30,8 +30,6 @@ export const ForgotPasswordForm = () => {
 					email: values.email,
 					redirect_url: '',
 				})
-
-				console.log('result', result)
 			} catch (error) {
 				if (error instanceof Error) {
 					setErrorMessage(error.message)

@@ -39,8 +39,6 @@ export const LoginForm = () => {
 			try {
 				const result = await client.login({ email, password })
 
-				console.log(result)
-
 				if (result.data.login_user.success) {
 					if (result.data.login_user.two_factor_authentication) {
 						navigate('/2fa', { replace: true, state: { email } })
