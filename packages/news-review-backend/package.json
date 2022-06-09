@@ -9,7 +9,7 @@
         "migrate:generate": "npm run prisma:migrate && npm run prisma:generate",
         "prisma:migrate": "npx prisma migrate dev",
         "prisma:generate": "npx prisma generate",
-        "prisma:reset": "npx prisma reset",
+        "prisma:reset": "npx prisma migrate reset",
         "docker:up": "docker-compose up -d",
         "docker:down": "docker-compose down",
         "docker:build": "docker-compose build",
@@ -28,6 +28,8 @@
         "test:e2e": "jest --config ./test/jest-e2e.json"
     },
     "dependencies": {
+        "@casl/ability": "^5.4.4",
+        "@casl/prisma": "^1.0.2",
         "@nestjs/apollo": "^10.0.14",
         "@nestjs/class-validator": "^0.13.4",
         "@nestjs/common": "^8.4.6",
@@ -72,6 +74,7 @@
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-prettier": "^4.0.0",
         "jest": "^28.1.1",
+        "lerna": "^5.1.1",
         "prettier": "^2.6.2",
         "prisma": "^3.15.0",
         "source-map-support": "^0.5.20",

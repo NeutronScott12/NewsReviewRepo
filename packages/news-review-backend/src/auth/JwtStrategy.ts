@@ -29,7 +29,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     async validate(payload: any) {
         console.log('PAYLOAD', payload)
-        return true
+        return payload
         //     try {
         //         const result = await this.cacheManager.get<{
         //             user: {

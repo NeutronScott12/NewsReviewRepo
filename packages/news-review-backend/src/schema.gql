@@ -13,6 +13,12 @@ type UserEntity {
   first_name: String!
   last_name: String!
   articles: [Article!]!
+  role: ROLES!
+}
+
+enum ROLES {
+  ADMIN
+  USER
 }
 
 type Article {
@@ -53,6 +59,7 @@ type Mutation {
   createReview(createReviewInput: CreateReviewInput!): Review!
   updateReview(updateReviewInput: UpdateReviewInput!): Review!
   removeReview(id: Int!): Review!
+  create_user(createUserArgs: CreateUserInput!): UserEntity!
 }
 
 input CreateArticleInput {
@@ -85,4 +92,12 @@ input UpdateReviewInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+  first_name: String!
+  last_name: String!
+  username: String!
 }

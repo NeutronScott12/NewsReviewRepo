@@ -6,6 +6,14 @@ import { PrismaService } from '../../prisma/prisma.service'
 export class UserService {
     constructor(private prismaService: PrismaService) {}
 
+    fetchOne(args: Prisma.UserFindUniqueArgs) {
+        try {
+            return this.prismaService.user.findUnique(args)
+        } catch (error) {
+            return new InternalServerErrorException(error)
+        }
+    }
+
     createOne(args: Prisma.UserCreateArgs) {
         try {
             return this.prismaService.user.create(args)

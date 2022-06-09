@@ -15,11 +15,17 @@ import {
 } from '@thelasthurrah/the-last-hurrah-shared'
 import { FetchArticleInput } from '../dto/inputs/fetch_article.input'
 import { RemoveArticleInput } from '../dto/inputs/remove-article.input'
-import { GqlAuthGuard } from '../../auth/guards'
+import { PoliciesGuard } from '../../casl/guards/PoliciesGuard'
+import { CaslAbilityFactory } from 'src/casl/casl-ability.factory'
+import { UserService } from 'src/user/services/user.service'
 
 @Resolver(() => Article)
 export class ArticleResolver {
-    constructor(private readonly articleService: ArticleService) {}
+    constructor(
+        private readonly articleService: ArticleService,
+        private caslAbilityFactory: CaslAbilityFactory,
+        private userService: UserService,
+    ) {}
 
     @Mutation(() => Article)
     create_article(
@@ -36,7 +42,8 @@ export class ArticleResolver {
 
     // @UseGuards(GqlAuthGuard)
     @Query(() => [Article])
-    fetch_all_articles() {
+    fetch_all_articles(@CurrentUser() user: ICurrentUser) {
+        console.log('user', user)
         return this.articleService.fetchMany({ include: { author: true } })
     }
 
@@ -50,10 +57,20 @@ export class ArticleResolver {
         })
     }
 
+    // @UseGuards(PoliciesGuard)
     @Mutation(() => Article)
-    updateArticle(
+    async updateArticle(
         @Args('updateArticleInput') { id, body, title }: UpdateArticleInput,
+        @CurrentUser() user: ICurrentUser,
     ) {
+        const userEntity = await this.userService.fetchOne({
+            where: { id: user.id },
+            include: { articles: true },
+        })
+
+        //@ts-ignore
+        const ability = this.caslAbilityFactory.createForUser(userEntity)
+
         return this.articleService.updateOne({
             where: {
                 id,
@@ -62,6 +79,7 @@ export class ArticleResolver {
                 title,
                 body,
             },
+            include: { author: true },
         })
     }
 

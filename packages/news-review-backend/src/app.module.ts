@@ -11,6 +11,7 @@ import { asyncGraphqlConfig } from './configs/graphql.config'
 import { configOptions } from './configs'
 import { UserModule } from './user/user.module'
 import { AuthModule } from './auth/auth.module'
+import { CaslModule } from './casl/casl.module'
 
 @Module({
     imports: [
@@ -20,6 +21,7 @@ import { AuthModule } from './auth/auth.module'
         ArticleModule,
         ReviewModule,
         UserModule,
+        CaslModule,
     ],
     controllers: [AppController],
     providers: [AppService, PrismaService],

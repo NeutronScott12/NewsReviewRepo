@@ -10,6 +10,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Roles {
+    ADMIN
+    USER
+}
+
 model User {
   id         String    @id @default(uuid())
   username   String    @unique
@@ -17,7 +22,8 @@ model User {
   last_name  String
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
-  Article    Article[]
+  role       Roles     @default(USER)
+  articles    Article[]
 }
 
 model Article {
@@ -25,6 +31,7 @@ model Article {
   title      String   @unique
   body       String
   userId     String
+  isPublished Boolean @default(false)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   author     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
