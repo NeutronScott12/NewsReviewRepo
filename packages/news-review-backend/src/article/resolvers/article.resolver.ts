@@ -3,7 +3,11 @@ import {
     // GqlAuthGuard,
     StandardResponseModel,
 } from '@thelasthurrah/the-last-hurrah-shared'
-import { InternalServerErrorException, UseGuards } from '@nestjs/common'
+import {
+    ForbiddenException,
+    InternalServerErrorException,
+    UseGuards,
+} from '@nestjs/common'
 
 import { ArticleService } from '../services/article.service'
 import { Article } from '../entities/article.entity'
@@ -67,6 +71,12 @@ export class ArticleResolver {
             where: { id: user.id },
             include: { articles: true },
         })
+
+        if (!userEntity) {
+            throw new ForbiddenException({
+                message: "You don't have permission to update this article",
+            })
+        }
 
         //@ts-ignore
         const ability = this.caslAbilityFactory.createForUser(userEntity)

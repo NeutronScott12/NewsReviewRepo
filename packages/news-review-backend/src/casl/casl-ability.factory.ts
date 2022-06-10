@@ -22,15 +22,17 @@ export class CaslAbilityFactory {
     createForUser(user: User) {
         const { can, cannot, build } = new AbilityBuilder(AppAbility)
 
-        if (user.role === 'ADMIN') {
-            can(Action.Manage, 'Article')
-        } else {
-            can(Action.Read, 'Article')
-        }
+        // if (user.role) {
+        //     if (user.role === 'ADMIN') {
+        //         can(Action.Manage, 'Article')
+        //     } else {
+        //         can(Action.Read, 'Article')
+        //     }
+        // }
 
         console.log('CASL_USER', user)
 
-        can(Action.Update, 'Article', { author: { id: user.id } })
+        can(Action.Update, 'Article', { author: { id: { equals: user.id } } })
         // cannot(Action.Delete, Article, { author: { $ne: { author: user.id } } })
 
         return build({
