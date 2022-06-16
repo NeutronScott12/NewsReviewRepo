@@ -14,6 +14,9 @@ export class UserEntity {
     @Field(() => String)
     username: string
 
+    @Field(() => String, { nullable: true })
+    email: string
+
     @Field(() => String)
     first_name: string
 

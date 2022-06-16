@@ -1,11 +1,17 @@
+-- CreateEnum
+CREATE TYPE "Roles" AS ENUM ('ADMIN', 'USER');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
+    "email" TEXT,
     "username" TEXT NOT NULL,
+    "binary_auth_id" TEXT NOT NULL,
     "first_name" TEXT NOT NULL,
     "last_name" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
+    "role" "Roles" NOT NULL DEFAULT E'USER',
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -16,6 +22,7 @@ CREATE TABLE "Article" (
     "title" TEXT NOT NULL,
     "body" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
+    "isPublished" BOOLEAN NOT NULL DEFAULT false,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -32,10 +39,16 @@ CREATE TABLE "Review" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_binary_auth_id_key" ON "User"("binary_auth_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Article_title_key" ON "Article"("title");
 
 -- AddForeignKey
-ALTER TABLE "Article" ADD CONSTRAINT "Article_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Article" ADD CONSTRAINT "Article_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
