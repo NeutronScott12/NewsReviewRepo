@@ -20,8 +20,8 @@ import {
 import { FetchArticleInput } from '../dto/inputs/fetch_article.input'
 import { RemoveArticleInput } from '../dto/inputs/remove-article.input'
 import { PoliciesGuard } from '../../casl/guards/PoliciesGuard'
-import { CaslAbilityFactory } from 'src/casl/casl-ability.factory'
-import { UserService } from 'src/user/services/user.service'
+import { CaslAbilityFactory } from '../../casl/casl-ability.factory'
+import { UserService } from '../../user/services/user.service'
 
 @Resolver(() => Article)
 export class ArticleResolver {

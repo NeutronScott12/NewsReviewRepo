@@ -33,7 +33,14 @@ describe('ArticleService', () => {
             data: {
                 body,
                 title,
-                author: { create: { first_name, last_name, username } },
+                author: {
+                    create: {
+                        first_name,
+                        last_name,
+                        username,
+                        binary_auth_id: faker.datatype.uuid(),
+                    },
+                },
             },
         })
 
@@ -56,7 +63,7 @@ describe('ArticleService', () => {
         expect(articles.length).toBeGreaterThan(0)
     })
 
-    afterAll(async () => {
-        await userService.deleteOne({ where: { username } })
-    })
+    // afterAll(async () => {
+    //     await userService.deleteOne({ where: { username } })
+    // })
 })

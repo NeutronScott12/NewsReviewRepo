@@ -6,7 +6,7 @@ import { ArticleResolver } from './resolvers/article.resolver'
 import { PrismaService } from '../prisma/prisma.service'
 import { GqlAuthGuard } from '../auth/guards'
 import { CaslModule } from '../casl/casl.module'
-import { UserService } from 'src/user/services/user.service'
+import { UserService } from '../user/services/user.service'
 
 @Module({
     providers: [

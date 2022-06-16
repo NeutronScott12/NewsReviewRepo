@@ -20,8 +20,8 @@ model User {
   email          String?   @unique
   username       String    @unique
   binary_auth_id String    @unique
-  first_name     String
-  last_name      String
+  first_name     String?
+  last_name      String?
   created_at     DateTime  @default(now())
   updated_at     DateTime  @updatedAt
   role           Roles     @default(USER)
