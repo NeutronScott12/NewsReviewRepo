@@ -40,6 +40,14 @@ export type CreateReviewInput = {
   exampleField: Scalars['Int'];
 };
 
+export type CreateUserInput = {
+  email?: InputMaybe<Scalars['String']>;
+  first_name?: InputMaybe<Scalars['String']>;
+  last_name?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
 export type FetchArticleInput = {
   id?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
@@ -49,6 +57,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createReview: Review;
   create_article: Article;
+  create_user: StandardResponseModel;
   removeArticle: StandardResponseModel;
   removeReview: Review;
   updateArticle: Article;
@@ -63,6 +72,11 @@ export type MutationCreateReviewArgs = {
 
 export type MutationCreate_ArticleArgs = {
   createArticleInput: CreateArticleInput;
+};
+
+
+export type MutationCreate_UserArgs = {
+  createUserInput: CreateUserInput;
 };
 
 
@@ -102,6 +116,11 @@ export type QueryReviewArgs = {
   id: Scalars['Int'];
 };
 
+export enum Roles {
+  Admin = 'ADMIN',
+  User = 'USER'
+}
+
 export type RemoveArticleInput = {
   id: Scalars['String'];
 };
@@ -135,9 +154,11 @@ export type UpdateReviewInput = {
 export type UserEntity = {
   __typename?: 'UserEntity';
   articles: Array<Article>;
+  email?: Maybe<Scalars['String']>;
   first_name: Scalars['String'];
   id: Scalars['String'];
   last_name: Scalars['String'];
+  role: Roles;
   username: Scalars['String'];
 };
 
@@ -154,6 +175,13 @@ export type FetchOneArticleQueryVariables = Exact<{
 
 
 export type FetchOneArticleQuery = { __typename?: 'Query', fetch_one_article: { __typename?: 'Article', id: string, title: string, body: string, created_at: any, updated_at: any, author: { __typename?: 'UserEntity', id: string, username: string, first_name: string, last_name: string } } };
+
+export type CreateUserMutationVariables = Exact<{
+  createUserInput: CreateUserInput;
+}>;
+
+
+export type CreateUserMutation = { __typename?: 'Mutation', create_user: { __typename?: 'StandardResponseModel', success: boolean, message: string } };
 
 export const ArticleFragmentFragmentDoc = gql`
     fragment ArticleFragment on Article {
@@ -239,3 +267,37 @@ export function useFetchOneArticleLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type FetchOneArticleQueryHookResult = ReturnType<typeof useFetchOneArticleQuery>;
 export type FetchOneArticleLazyQueryHookResult = ReturnType<typeof useFetchOneArticleLazyQuery>;
 export type FetchOneArticleQueryResult = Apollo.QueryResult<FetchOneArticleQuery, FetchOneArticleQueryVariables>;
+export const CreateUserDocument = gql`
+    mutation CreateUser($createUserInput: CreateUserInput!) {
+  create_user(createUserInput: $createUserInput) {
+    success
+    message
+  }
+}
+    `;
+export type CreateUserMutationFn = Apollo.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
+
+/**
+ * __useCreateUserMutation__
+ *
+ * To run a mutation, you first call `useCreateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createUserMutation, { data, loading, error }] = useCreateUserMutation({
+ *   variables: {
+ *      createUserInput: // value for 'createUserInput'
+ *   },
+ * });
+ */
+export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, options);
+      }
+export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
+export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
+export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;

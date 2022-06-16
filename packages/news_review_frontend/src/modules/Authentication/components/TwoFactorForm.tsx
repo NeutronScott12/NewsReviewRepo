@@ -6,11 +6,13 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useErrorAndSuccess } from '../../../utils/hooks/errorAndSuccess'
 import { ErrorAlert } from '../../../partials/ErrorAlert'
+import { useCreateUserMutation } from '../../../generated/graphql'
 
 export const TwoFactorLoginForm = () => {
 	const client = useBinaryMutations()
 	const { setErrorMessage, setError, checkError, errorMessage } =
 		useErrorAndSuccess()
+	const [createUser] = useCreateUserMutation()
 	const { state } = useLocation()
 	const navigate = useNavigate()
 
@@ -44,6 +46,14 @@ export const TwoFactorLoginForm = () => {
 					'binary-stash-token',
 					result.data.two_factor_login.token
 				)
+
+				await createUser({
+					variables: {
+						createUserInput: {
+							username: result.data.two_factor_login.username,
+						},
+					},
+				})
 
 				navigate('/', { replace: true })
 			}

@@ -7,6 +7,7 @@ import { Container, TextField, Button } from '@mui/material'
 import { loginValidation } from '../helpers/validations'
 import { useErrorAndSuccess } from '../../../utils/hooks/errorAndSuccess'
 import { ErrorAlert } from '../../../partials/ErrorAlert'
+import { useCreateUserMutation } from '../../../generated/graphql'
 
 interface ILoginFormValues {
 	email: string
@@ -16,6 +17,7 @@ interface ILoginFormValues {
 export const LoginForm = () => {
 	const navigate = useNavigate()
 	const client = useBinaryMutations()
+	const [createUser] = useCreateUserMutation()
 	const { setErrorMessage, setError, checkError, errorMessage } =
 		useErrorAndSuccess()
 
@@ -47,6 +49,14 @@ export const LoginForm = () => {
 							'binary-stash-token',
 							result.data.login_user.token
 						)
+
+						await createUser({
+							variables: {
+								createUserInput: {
+									username: result.data.login_user.username,
+								},
+							},
+						})
 
 						navigate('/', { replace: true })
 					}
