@@ -39,7 +39,7 @@ export class ArticleResolver {
         return this.articleService.create({
             data: {
                 ...createArticleInput,
-                author: { connect: { id: user.id } },
+                author: { connect: { id: user.user_id } },
             },
         })
     }
@@ -68,7 +68,7 @@ export class ArticleResolver {
         @CurrentUser() user: ICurrentUser,
     ) {
         const userEntity = await this.userService.fetchOne({
-            where: { id: user.id },
+            where: { id: user.user_id },
             include: { articles: true },
         })
 

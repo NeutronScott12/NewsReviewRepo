@@ -63,7 +63,7 @@ describe('ArticleService', () => {
         expect(articles.length).toBeGreaterThan(0)
     })
 
-    // afterAll(async () => {
-    //     await userService.deleteOne({ where: { username } })
-    // })
+    afterAll(async () => {
+        await userService.deleteOne({ where: { username } })
+    })
 })

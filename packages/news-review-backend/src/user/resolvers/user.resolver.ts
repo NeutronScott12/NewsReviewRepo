@@ -18,14 +18,14 @@ export class UserResolver {
     async create_user(
         @Args('createUserInput')
         { first_name, last_name }: CreateUserInput,
-        @CurrentUser() { id, username }: ICurrentUser,
+        @CurrentUser() { user_id, username }: ICurrentUser,
     ): Promise<StandardResponseModel> {
         try {
-            console.log(id, username)
+            console.log(user_id, username)
 
             const found = await this.userService.fetchOne({
                 where: {
-                    binary_auth_id: id,
+                    binary_auth_id: user_id,
                 },
             })
 
@@ -40,7 +40,7 @@ export class UserResolver {
                         first_name,
                         last_name,
                         username,
-                        binary_auth_id: id,
+                        binary_auth_id: user_id,
                     },
                 })
 
