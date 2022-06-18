@@ -8,6 +8,7 @@ import { RegisterContainer } from '../modules/Authentication/containers/Register
 import { TwoFactorLoginContainer } from '../modules/Authentication/containers/TwoFactorLogin'
 import { HomeLayout } from '../modules/Home'
 import { useLoggedIn } from '../utils/hooks/customApolloHooks'
+import { ProtectedRoute } from './ProtectedRoute'
 
 export const SiteRouter = () => {
 	const { data } = useLoggedIn()
@@ -15,12 +16,16 @@ export const SiteRouter = () => {
 	const routes = useRoutes([
 		{
 			path: '/',
-			element:
-				data && data.isLoggedIn !== false ? (
+			element: (
+				<ProtectedRoute>
 					<HomeLayout />
-				) : (
-					<LoginContainer />
-				),
+				</ProtectedRoute>
+			),
+			// data && data.isLoggedIn !== false ? (
+			// 	<HomeLayout />
+			// ) : (
+			// 	<LoginContainer />
+			// ),
 		},
 		{
 			path: '/login',

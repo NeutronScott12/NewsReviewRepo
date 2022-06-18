@@ -59,6 +59,8 @@ export const LoginForm = () => {
 							},
 						})
 
+						localStorage.setItem('loggedIn', 'true')
+
 						await createUser({
 							variables: {
 								createUserInput: {

@@ -1,20 +1,9 @@
 import React, { useEffect, Suspense } from 'react'
 import { CircularProgress, Container, Grid } from '@mui/material'
-import { useBinaryQueries } from '@thelasthurrah/authentication_api'
 
 import { ArticleFeedContainer } from '../Articles/containers/ArticleFeedContainer'
 
 export const HomeLayout = () => {
-	const client = useBinaryQueries()
-
-	useEffect(() => {
-		const fetchUser = async () => {
-			const result = await client.currentUser()
-		}
-
-		fetchUser().catch(console.error)
-	}, [])
-
 	return (
 		<Container>
 			<h2>Home Layout</h2>
