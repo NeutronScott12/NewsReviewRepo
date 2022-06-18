@@ -8,6 +8,8 @@ import { loginValidation } from '../helpers/validations'
 import { useErrorAndSuccess } from '../../../utils/hooks/errorAndSuccess'
 import { ErrorAlert } from '../../../partials/ErrorAlert'
 import { useCreateUserMutation } from '../../../generated/graphql'
+import { cache } from '../../../apollo/cache'
+import { IS_LOGGED_IN } from '../../../apollo/typeDefs'
 
 interface ILoginFormValues {
 	email: string
@@ -49,6 +51,13 @@ export const LoginForm = () => {
 							'binary-stash-token',
 							result.data.login_user.token
 						)
+
+						cache.writeQuery({
+							query: IS_LOGGED_IN,
+							data: {
+								isLoggedIn: true,
+							},
+						})
 
 						await createUser({
 							variables: {

@@ -7,12 +7,20 @@ import { LoginContainer } from '../modules/Authentication/containers/Login'
 import { RegisterContainer } from '../modules/Authentication/containers/Register'
 import { TwoFactorLoginContainer } from '../modules/Authentication/containers/TwoFactorLogin'
 import { HomeLayout } from '../modules/Home'
+import { useLoggedIn } from '../utils/hooks/customApolloHooks'
 
 export const SiteRouter = () => {
+	const { data } = useLoggedIn()
+
 	const routes = useRoutes([
 		{
 			path: '/',
-			element: <HomeLayout />,
+			element:
+				data && data.isLoggedIn !== false ? (
+					<HomeLayout />
+				) : (
+					<LoginContainer />
+				),
 		},
 		{
 			path: '/login',
