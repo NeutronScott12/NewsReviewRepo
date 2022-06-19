@@ -13,7 +13,6 @@
 		"@testing-library/jest-dom": "^5.16.4",
 		"@testing-library/react": "^13.3.0",
 		"@testing-library/user-event": "^14.2.1",
-		"@thelasthurrah/authentication_api": "^0.1.18",
 		"@thelasthurrah/binary-stash-authentication": "^0.0.14",
 		"@types/jest": "^28.1.2",
 		"@types/node": "^18.0.0",
