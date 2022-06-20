@@ -2,6 +2,7 @@ import * as React from 'react'
 import { useRoutes } from 'react-router'
 
 import { ArticleContainer } from '../modules/Articles/containers/ArticleContainer'
+import { CreateArticleContainer } from '../modules/Articles/containers/CreateArticleContainer'
 import { ForgotPasswordContainer } from '../modules/Authentication/containers/ForgotPassword'
 import { LoginContainer } from '../modules/Authentication/containers/Login'
 import { RegisterContainer } from '../modules/Authentication/containers/Register'
@@ -49,6 +50,10 @@ export const SiteRouter = () => {
 				{
 					path: ':title',
 					element: <ArticleContainer />,
+				},
+				{
+					path: 'create',
+					element: <CreateArticleContainer />,
 				},
 			],
 		},

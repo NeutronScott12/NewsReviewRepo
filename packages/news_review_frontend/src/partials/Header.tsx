@@ -49,6 +49,12 @@ export const Header = () => {
 					</Typography>
 					{data && data.isLoggedIn ? (
 						<>
+							<Link
+								className={classes.iconStyle}
+								to="/article/create"
+							>
+								<Button color="inherit">Create Article</Button>
+							</Link>
 							<Button
 								onClick={() => {
 									localStorage.removeItem(

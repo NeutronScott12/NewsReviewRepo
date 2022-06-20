@@ -6,6 +6,7 @@ import { SiteRouter } from './router'
 import { cache } from './apollo/cache'
 import { IS_LOGGED_IN } from './apollo/typeDefs'
 import { LoadingComponent } from './partials/Loading'
+import { Container } from '@mui/material'
 
 function App() {
 	const client = useBinaryQueries()
@@ -14,7 +15,6 @@ function App() {
 	useLayoutEffect(() => {
 		const fetchUser = async () => {
 			const result = await client.currentUser()
-			console.log('RESULT', result)
 
 			if (result.data.current_user) {
 				cache.writeQuery({
@@ -35,14 +35,14 @@ function App() {
 		})
 	}, [])
 
-	console.log('LOADED', loaded)
-
 	return loaded ? (
 		<LoadingComponent />
 	) : (
-		<div className="App">
+		<div>
 			<Header />
-			<SiteRouter />
+			<Container>
+				<SiteRouter />
+			</Container>
 		</div>
 	)
 }

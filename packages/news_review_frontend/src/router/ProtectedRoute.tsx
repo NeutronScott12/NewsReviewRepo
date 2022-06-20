@@ -12,8 +12,6 @@ export const ProtectedRoute: React.FC<IProps> = ({ children, loggedIn }) => {
 	// const currentUser = usefetchCurrentUser()
 	// const { data } = useLoggedIn()
 
-	console.log('LOGGED IN', loggedIn)
-
 	if (loggedIn === false) {
 		return <Navigate to="/login" />
 	}
