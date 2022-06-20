@@ -7,6 +7,8 @@ import {
 	BinaryStashProvider,
 } from '@thelasthurrah/authentication_api'
 
+import './styles.css'
+
 import { client } from './apollo'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
