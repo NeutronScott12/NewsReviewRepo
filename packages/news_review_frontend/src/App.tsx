@@ -3,20 +3,43 @@ import { useBinaryQueries } from '@thelasthurrah/authentication_api'
 
 import { Header } from './partials/Header'
 import { SiteRouter } from './router'
+import { cache } from './apollo/cache'
+import { IS_LOGGED_IN } from './apollo/typeDefs'
+import { LoadingComponent } from './partials/Loading'
 
 function App() {
 	const client = useBinaryQueries()
+	const [loaded, setLoaded] = React.useState(true)
 
 	useLayoutEffect(() => {
 		const fetchUser = async () => {
 			const result = await client.currentUser()
 			console.log('RESULT', result)
+
+			if (result.data.current_user) {
+				cache.writeQuery({
+					query: IS_LOGGED_IN,
+					data: {
+						isLoggedIn: true,
+					},
+				})
+
+				setLoaded(false)
+			}
+			setLoaded(false)
 		}
 
-		fetchUser().catch(console.error)
+		fetchUser().catch((error) => {
+			console.log('ERROR', error)
+			setLoaded(false)
+		})
 	}, [])
 
-	return (
+	console.log('LOADED', loaded)
+
+	return loaded ? (
+		<LoadingComponent />
+	) : (
 		<div className="App">
 			<Header />
 			<SiteRouter />

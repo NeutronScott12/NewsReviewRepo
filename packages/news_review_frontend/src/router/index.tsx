@@ -17,7 +17,7 @@ export const SiteRouter = () => {
 		{
 			path: '/',
 			element: (
-				<ProtectedRoute>
+				<ProtectedRoute loggedIn={data?.isLoggedIn}>
 					<HomeLayout />
 				</ProtectedRoute>
 			),

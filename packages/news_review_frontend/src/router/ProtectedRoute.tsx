@@ -5,15 +5,16 @@ import { Navigate } from 'react-router-dom'
 
 interface IProps {
 	children: React.ReactNode
+	loggedIn: boolean | undefined
 }
 
-export const ProtectedRoute: React.FC<IProps> = ({ children }) => {
+export const ProtectedRoute: React.FC<IProps> = ({ children, loggedIn }) => {
 	// const currentUser = usefetchCurrentUser()
 	// const { data } = useLoggedIn()
 
-	//@TODO: DON'T RELY ON LOCAL STORAGE, PROBLEMS ARISE
+	console.log('LOGGED IN', loggedIn)
 
-	if (localStorage.getItem('isLoggedIn') === 'false') {
+	if (loggedIn === false) {
 		return <Navigate to="/login" />
 	}
 

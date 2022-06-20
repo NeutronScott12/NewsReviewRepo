@@ -1,12 +1,8 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql'
-import {
-    // GqlAuthGuard,
-    StandardResponseModel,
-} from '@thelasthurrah/the-last-hurrah-shared'
+import { StandardResponseModel } from '@thelasthurrah/the-last-hurrah-shared'
 import {
     ForbiddenException,
     InternalServerErrorException,
-    UseGuards,
 } from '@nestjs/common'
 
 import { ArticleService } from '../services/article.service'
@@ -19,7 +15,6 @@ import {
 } from '@thelasthurrah/the-last-hurrah-shared'
 import { FetchArticleInput } from '../dto/inputs/fetch_article.input'
 import { RemoveArticleInput } from '../dto/inputs/remove-article.input'
-import { PoliciesGuard } from '../../casl/guards/PoliciesGuard'
 import { CaslAbilityFactory } from '../../casl/casl-ability.factory'
 import { UserService } from '../../user/services/user.service'
 
