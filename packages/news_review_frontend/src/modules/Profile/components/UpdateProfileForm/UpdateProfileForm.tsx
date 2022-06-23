@@ -1,11 +1,12 @@
 import React from 'react'
-import { Alert, Button, TextField } from '@mui/material'
+import { Button, TextField } from '@mui/material'
 import { useFormik } from 'formik'
 
 import { useUpdateUserMutation } from '../../../../generated/graphql'
 import { updateUserSchema } from '../../validation/updateUserSchema'
 import { IFormValues, IUpdateProfileFormProps } from './types'
 import { useErrorAndSuccess } from '../../../../utils/hooks/errorAndSuccess'
+import { SucessAlert } from '../../../../partials/SuccessAlert'
 
 export const UpdateProfileForm: React.FC<IUpdateProfileFormProps> = ({
 	email,
@@ -57,9 +58,10 @@ export const UpdateProfileForm: React.FC<IUpdateProfileFormProps> = ({
 	return (
 		<>
 			<br />
-			{checkSuccess ? (
-				<Alert severity="success">{successMessage}</Alert>
-			) : null}
+			<SucessAlert
+				checkSucess={checkSuccess}
+				sucessMessage={successMessage}
+			/>
 			<h1>Update Profile</h1>
 			<form onSubmit={handleSubmit}>
 				<TextField

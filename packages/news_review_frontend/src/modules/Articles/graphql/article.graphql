@@ -1,7 +1,9 @@
 fragment ArticleFragment on Article {
 	id
 	title
-	body
+	plain_text_body
+	json_body
+	slug
 	created_at
 	updated_at
 	author {

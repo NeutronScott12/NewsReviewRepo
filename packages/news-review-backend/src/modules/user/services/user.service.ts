@@ -22,11 +22,7 @@ export class UserService {
     }
 
     updateOne(args: Prisma.UserUpdateArgs) {
-        try {
-            return this.prismaService.user.update(args)
-        } catch (error) {
-            return new InternalServerErrorException(error)
-        }
+        return this.prismaService.user.update(args)
     }
 
     deleteOne(args: Prisma.UserDeleteArgs) {

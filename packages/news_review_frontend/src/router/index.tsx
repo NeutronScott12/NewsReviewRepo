@@ -18,6 +18,14 @@ const ProfileContainer = lazy(() =>
 	}))
 )
 
+const UpdateArticleContainer = lazy(() =>
+	import('../modules/Articles/containers/UpdateArticleContainer').then(
+		(module) => ({
+			default: module.UpdateArticleContainer,
+		})
+	)
+)
+
 export const SiteRouter = () => {
 	const { data } = useLoggedIn()
 
@@ -61,6 +69,14 @@ export const SiteRouter = () => {
 				{
 					path: 'create',
 					element: <CreateArticleContainer />,
+				},
+				{
+					path: 'update/:slug',
+					element: (
+						<Suspense fallback={<LoadingComponent />}>
+							<UpdateArticleContainer />
+						</Suspense>
+					),
 				},
 			],
 		},

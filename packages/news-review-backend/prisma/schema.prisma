@@ -16,27 +16,30 @@ enum Roles {
 }
 
 model User {
-  id             String    @id @default(uuid())
-  email          String?   @unique
-  username       String    @unique
-  binary_auth_id String    @unique
-  first_name     String?
-  last_name      String?
-  created_at     DateTime  @default(now())
-  updated_at     DateTime  @updatedAt
-  role           Roles     @default(USER)
-  articles       Article[]
+  id               String    @id @default(uuid())
+  email            String?   @unique
+  username         String?   @unique
+  binary_auth_id   String    @unique
+  first_name       String?
+  last_name        String?
+  fully_registered Boolean   @default(false)
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+  role             Roles     @default(USER)
+  articles         Article[] 
 }
 
 model Article {
-  id          String   @id @default(uuid())
-  title       String   @unique
-  body        String
-  userId      String
-  isPublished Boolean  @default(false)
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
-  author      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id              String   @id @default(uuid())
+  title           String   @unique
+  plain_text_body String
+  userId          String
+  slug            String
+  json_body       Json
+  isPublished     Boolean  @default(false)
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+  author          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Review {

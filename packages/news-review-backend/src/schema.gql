@@ -26,11 +26,18 @@ type Article {
   """Article ID"""
   id: String!
   title: String!
-  body: String!
+  plain_text_body: String!
+  slug: String!
+  json_body: [JSONObject!]!
   created_at: DateTime!
   updated_at: DateTime!
   author: UserEntity!
 }
+
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject
 
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
@@ -59,7 +66,8 @@ type Query {
 
 input FetchArticleInput {
   id: String
-  title: String!
+  title: String
+  slug: String
 }
 
 type Mutation {
@@ -78,7 +86,10 @@ input CreateArticleInput {
   title: String!
 
   """Body of the Article"""
-  body: String!
+  plain_text_body: String!
+
+  """JSON Body of the Article"""
+  json_body: [JSONObject!]!
 }
 
 input UpdateArticleInput {
@@ -86,7 +97,10 @@ input UpdateArticleInput {
   title: String
 
   """Body of the Article"""
-  body: String
+  plain_text_body: String
+
+  """JSON Body of the Article"""
+  json_body: [JSONObject!]
   id: String!
 }
 
@@ -107,16 +121,14 @@ input UpdateReviewInput {
 
 input CreateUserInput {
   email: String
-  password: String
   first_name: String
   last_name: String
   username: String
 }
 
 input UpdateUserInput {
-  email: String
-  password: String
-  first_name: String
-  last_name: String
-  username: String
+  email: String!
+  first_name: String!
+  last_name: String!
+  username: String!
 }

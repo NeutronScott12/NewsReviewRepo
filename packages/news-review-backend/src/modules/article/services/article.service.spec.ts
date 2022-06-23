@@ -9,7 +9,7 @@ describe('ArticleService', () => {
     let articleService: ArticleService
     let userService: UserService
 
-    let body = faker.lorem.paragraph()
+    let plain_text_body = faker.lorem.paragraph()
     let title = faker.lorem.word()
     let first_name = faker.name.firstName()
     let last_name = faker.name.lastName()
@@ -31,8 +31,10 @@ describe('ArticleService', () => {
     it('Create One Article', async () => {
         const newArticle = await articleService.create({
             data: {
-                body,
+                plain_text_body,
+                json_body: {},
                 title,
+                slug: title.toLowerCase().replace(/ /g, '-'),
                 author: {
                     create: {
                         first_name,
@@ -63,7 +65,7 @@ describe('ArticleService', () => {
         expect(articles.length).toBeGreaterThan(0)
     })
 
-    afterAll(async () => {
-        await userService.deleteOne({ where: { username } })
-    })
+    // afterAll(async () => {
+    //     await userService.deleteOne({ where: { username } })
+    // })
 })

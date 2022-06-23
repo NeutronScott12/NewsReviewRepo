@@ -5,6 +5,9 @@ export class FetchArticleInput {
     @Field(() => String, { nullable: true })
     id: string
 
-    @Field(() => String)
+    @Field(() => String, { nullable: true })
     title: string
+
+    @Field(() => String, { nullable: true })
+    slug: string
 }

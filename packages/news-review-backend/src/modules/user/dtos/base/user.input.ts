@@ -2,14 +2,12 @@ import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
 export class UserInput {
-    @Field({ nullable: true })
+    @Field()
     email: string
-    @Field({ nullable: true })
-    password: string
-    @Field({ nullable: true })
+    @Field()
     first_name: string
-    @Field({ nullable: true })
+    @Field()
     last_name: string
-    @Field({ nullable: true })
+    @Field()
     username: string
 }

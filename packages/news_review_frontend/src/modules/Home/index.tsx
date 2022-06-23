@@ -1,7 +1,7 @@
 import React, { useEffect, Suspense } from 'react'
 import { CircularProgress, Container, Grid } from '@mui/material'
 
-import { ArticleFeedContainer } from '../Articles/containers/ArticleFeedContainer'
+import { ArticleFeedContainer } from './containers/ArticleFeedContainer'
 
 export const HomeLayout = () => {
 	return (

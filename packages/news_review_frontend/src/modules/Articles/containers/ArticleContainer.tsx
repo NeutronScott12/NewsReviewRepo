@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { SpinningComponent } from '../../../common/Spinner'
 
 import { useFetchOneArticleQuery } from '../../../generated/graphql'
+import { ArticleView } from '../views/ArticlePage'
 
 export const ArticleContainer = () => {
 	const { title } = useParams() as { title: string }
@@ -15,13 +16,21 @@ export const ArticleContainer = () => {
 		},
 	})
 
-	return loading ? (
+	return loading && data === undefined ? (
 		<SpinningComponent />
 	) : (
-		<div>
-			<h1>{data?.fetch_one_article.title}</h1>
-			<h2>Written By: {data?.fetch_one_article.author.first_name}</h2>
-			<p>{data?.fetch_one_article.body}</p>
-		</div>
+		{
+			...(data?.fetch_one_article ? (
+				<ArticleView
+					plain_text_body={data.fetch_one_article.plain_text_body}
+					json_body={data.fetch_one_article.json_body}
+					title={data.fetch_one_article.title}
+					slug={data.fetch_one_article.slug}
+					{...data?.fetch_one_article.author}
+				/>
+			) : (
+				<div>Couldn't load article</div>
+			)),
+		}
 	)
 }

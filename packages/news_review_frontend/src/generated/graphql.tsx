@@ -15,22 +15,28 @@ export type Scalars = {
   Float: number;
   /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
   DateTime: any;
+  /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
+  JSONObject: any;
 };
 
 export type Article = {
   __typename?: 'Article';
   author: UserEntity;
-  body: Scalars['String'];
   created_at: Scalars['DateTime'];
   /** Article ID */
   id: Scalars['String'];
+  json_body: Array<Scalars['JSONObject']>;
+  plain_text_body: Scalars['String'];
+  slug: Scalars['String'];
   title: Scalars['String'];
   updated_at: Scalars['DateTime'];
 };
 
 export type CreateArticleInput = {
+  /** JSON Body of the Article */
+  json_body: Array<Scalars['JSONObject']>;
   /** Body of the Article */
-  body: Scalars['String'];
+  plain_text_body: Scalars['String'];
   /** Article Title */
   title: Scalars['String'];
 };
@@ -44,13 +50,13 @@ export type CreateUserInput = {
   email?: InputMaybe<Scalars['String']>;
   first_name?: InputMaybe<Scalars['String']>;
   last_name?: InputMaybe<Scalars['String']>;
-  password?: InputMaybe<Scalars['String']>;
   username?: InputMaybe<Scalars['String']>;
 };
 
 export type FetchArticleInput = {
   id?: InputMaybe<Scalars['String']>;
-  title: Scalars['String'];
+  slug?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -145,9 +151,11 @@ export type StandardResponseModel = {
 };
 
 export type UpdateArticleInput = {
-  /** Body of the Article */
-  body?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
+  /** JSON Body of the Article */
+  json_body?: InputMaybe<Array<Scalars['JSONObject']>>;
+  /** Body of the Article */
+  plain_text_body?: InputMaybe<Scalars['String']>;
   /** Article Title */
   title?: InputMaybe<Scalars['String']>;
 };
@@ -159,11 +167,10 @@ export type UpdateReviewInput = {
 };
 
 export type UpdateUserInput = {
-  email?: InputMaybe<Scalars['String']>;
-  first_name?: InputMaybe<Scalars['String']>;
-  last_name?: InputMaybe<Scalars['String']>;
-  password?: InputMaybe<Scalars['String']>;
-  username?: InputMaybe<Scalars['String']>;
+  email: Scalars['String'];
+  first_name: Scalars['String'];
+  last_name: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type UserEntity = {
@@ -186,26 +193,26 @@ export type UserResponse = {
   username?: Maybe<Scalars['String']>;
 };
 
-export type ArticleFragmentFragment = { __typename?: 'Article', id: string, title: string, body: string, created_at: any, updated_at: any, author: { __typename?: 'UserEntity', id: string, username: string, first_name: string, last_name: string } };
+export type ArticleFragmentFragment = { __typename?: 'Article', id: string, title: string, plain_text_body: string, json_body: Array<any>, slug: string, created_at: any, updated_at: any, author: { __typename?: 'UserEntity', id: string, username: string, first_name: string, last_name: string } };
 
 export type FetchAllArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchAllArticlesQuery = { __typename?: 'Query', fetch_all_articles: Array<{ __typename?: 'Article', id: string, title: string, body: string, created_at: any, updated_at: any, author: { __typename?: 'UserEntity', id: string, username: string, first_name: string, last_name: string } }> };
+export type FetchAllArticlesQuery = { __typename?: 'Query', fetch_all_articles: Array<{ __typename?: 'Article', id: string, title: string, plain_text_body: string, json_body: Array<any>, slug: string, created_at: any, updated_at: any, author: { __typename?: 'UserEntity', id: string, username: string, first_name: string, last_name: string } }> };
 
 export type FetchOneArticleQueryVariables = Exact<{
   fetchArticleInput: FetchArticleInput;
 }>;
 
 
-export type FetchOneArticleQuery = { __typename?: 'Query', fetch_one_article: { __typename?: 'Article', id: string, title: string, body: string, created_at: any, updated_at: any, author: { __typename?: 'UserEntity', id: string, username: string, first_name: string, last_name: string } } };
+export type FetchOneArticleQuery = { __typename?: 'Query', fetch_one_article: { __typename?: 'Article', id: string, title: string, plain_text_body: string, json_body: Array<any>, slug: string, created_at: any, updated_at: any, author: { __typename?: 'UserEntity', id: string, username: string, first_name: string, last_name: string } } };
 
 export type CreateArticleMutationVariables = Exact<{
   createArticleInput: CreateArticleInput;
 }>;
 
 
-export type CreateArticleMutation = { __typename?: 'Mutation', create_article: { __typename?: 'Article', id: string, title: string, body: string, created_at: any, updated_at: any, author: { __typename?: 'UserEntity', id: string, username: string, first_name: string, last_name: string } } };
+export type CreateArticleMutation = { __typename?: 'Mutation', create_article: { __typename?: 'Article', id: string, title: string, plain_text_body: string, json_body: Array<any>, slug: string, created_at: any, updated_at: any, author: { __typename?: 'UserEntity', id: string, username: string, first_name: string, last_name: string } } };
 
 export type CreateUserMutationVariables = Exact<{
   createUserInput: CreateUserInput;
@@ -230,7 +237,9 @@ export const ArticleFragmentFragmentDoc = gql`
     fragment ArticleFragment on Article {
   id
   title
-  body
+  plain_text_body
+  json_body
+  slug
   created_at
   updated_at
   author {

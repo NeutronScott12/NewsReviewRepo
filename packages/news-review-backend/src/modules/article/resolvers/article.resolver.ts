@@ -27,16 +27,31 @@ export class ArticleResolver {
     ) {}
 
     @Mutation(() => Article)
-    create_article(
+    async create_article(
         @Args('createArticleInput') createArticleInput: CreateArticleInput,
         @CurrentUser() user: ICurrentUser,
     ) {
+        const userEntity = await this.userService.fetchOne({
+            where: { binary_auth_id: user.user_id },
+        })
+
+        if (userEntity.fully_registered === false) {
+            throw new ForbiddenException(
+                'You must be fully registered to create an article',
+            )
+        }
+
         console.log('user', user)
+        const slug = createArticleInput.title
+            .trim()
+            .toLowerCase()
+            .replace(/ /g, '-')
 
         //@TODO - Instead of using binary ID, we could setup a cookie or session holding the user ID
         return this.articleService.create({
             data: {
                 ...createArticleInput,
+                slug,
                 author: { connect: { binary_auth_id: user.user_id } },
             },
             include: { author: true },
@@ -52,10 +67,10 @@ export class ArticleResolver {
 
     @Query(() => Article)
     fetch_one_article(
-        @Args('fetchArticleInput') { id, title }: FetchArticleInput,
+        @Args('fetchArticleInput') { id, title, slug }: FetchArticleInput,
     ) {
         return this.articleService.fetchOne({
-            where: { OR: [{ id }, { title }] },
+            where: { OR: [{ id }, { title }, { slug }] },
             include: { author: true },
         })
     }
@@ -63,7 +78,8 @@ export class ArticleResolver {
     // @UseGuards(PoliciesGuard)
     @Mutation(() => Article)
     async updateArticle(
-        @Args('updateArticleInput') { id, body, title }: UpdateArticleInput,
+        @Args('updateArticleInput')
+        { id, plain_text_body, title, json_body }: UpdateArticleInput,
         @CurrentUser() user: ICurrentUser,
     ) {
         const userEntity = await this.userService.fetchOne({
@@ -86,7 +102,8 @@ export class ArticleResolver {
             },
             data: {
                 title,
-                body,
+                plain_text_body,
+                json_body,
             },
             include: { author: true },
         })

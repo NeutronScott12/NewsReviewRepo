@@ -4,6 +4,7 @@ import { useFormik } from 'formik'
 import SlateEditor from '../../../common/Editor'
 import { Button, TextField, Typography } from '@mui/material'
 import { useCreateArticleMutation } from '../../../generated/graphql'
+import { plainTextserialiser } from '../helpers/serializers'
 
 export const CreateArticleContainer = () => {
 	const [createArticle] = useCreateArticleMutation()
@@ -27,7 +28,8 @@ export const CreateArticleContainer = () => {
 				variables: {
 					createArticleInput: {
 						title,
-						body: JSON.stringify(value),
+						json_body: value,
+						plain_text_body: plainTextserialiser(value),
 					},
 				},
 			})

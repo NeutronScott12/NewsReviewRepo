@@ -53,7 +53,14 @@ export class UserResolver {
         @CurrentUser() { user_id, username }: ICurrentUser,
     ): Promise<StandardResponseModel> {
         try {
-            await this.userService.updateUser(args, user_id)
+            const user = await this.userService.updateUser(args, user_id)
+
+            if (user.email && user.first_name && user.last_name) {
+                await this.userService.updateOne({
+                    where: { id: user.id },
+                    data: { fully_registered: true },
+                })
+            }
 
             return {
                 success: true,
