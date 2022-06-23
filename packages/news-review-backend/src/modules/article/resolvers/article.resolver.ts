@@ -15,7 +15,7 @@ import {
 } from '@thelasthurrah/the-last-hurrah-shared'
 import { FetchArticleInput } from '../dto/inputs/fetch_article.input'
 import { RemoveArticleInput } from '../dto/inputs/remove-article.input'
-import { CaslAbilityFactory } from '../../casl/casl-ability.factory'
+import { CaslAbilityFactory } from '../../../casl/casl-ability.factory'
 import { UserService } from '../../user/services/user.service'
 
 @Resolver(() => Article)
@@ -31,11 +31,15 @@ export class ArticleResolver {
         @Args('createArticleInput') createArticleInput: CreateArticleInput,
         @CurrentUser() user: ICurrentUser,
     ) {
+        console.log('user', user)
+
+        //@TODO - Instead of using binary ID, we could setup a cookie or session holding the user ID
         return this.articleService.create({
             data: {
                 ...createArticleInput,
-                author: { connect: { id: user.user_id } },
+                author: { connect: { binary_auth_id: user.user_id } },
             },
+            include: { author: true },
         })
     }
 

@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql'
 
 @InputType()
-export class CreateUserInput {
+export class UserInput {
     @Field({ nullable: true })
     email: string
     @Field({ nullable: true })

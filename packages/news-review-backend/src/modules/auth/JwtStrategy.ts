@@ -10,7 +10,7 @@ import { PassportStrategy } from '@nestjs/passport'
 import { ConfigService } from '@nestjs/config'
 import { Cache } from 'cache-manager'
 
-import { AUTHENTICATION_CACHE_KEY, USER_NOT_VERIFIED } from '../constants'
+import { AUTHENTICATION_CACHE_KEY, USER_NOT_VERIFIED } from '../../constants'
 
 // import { AUTHENTICATION_CACHE_KEY, USER_NOT_VERIFIED } from '../constants';
 

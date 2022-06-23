@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { ReviewResolver } from '../resolvers/review.resolver'
+import { ReviewResolver } from './review.resolver'
 import { ReviewService } from '../services/review.service'
 
 describe('ReviewResolver', () => {

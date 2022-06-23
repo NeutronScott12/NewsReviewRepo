@@ -1,7 +1,7 @@
 import { AbilityBuilder, AbilityClass, ExtractSubjectType } from '@casl/ability'
 import { PrismaAbility, Subjects } from '@casl/prisma'
 import { Article, Review, User } from '@prisma/client'
-import { UserEntity } from 'src/user/entities/user.entity'
+import { UserEntity } from 'src/modules/user/entities/user.entity'
 // import { Article } from '../article/entities/article.entity'
 // import { UserEntity } from '../user/entities/user.entity'
 import { Action } from './enums'

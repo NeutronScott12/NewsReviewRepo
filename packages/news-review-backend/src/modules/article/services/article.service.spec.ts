@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker'
 
 import { ArticleService } from './article.service'
 import { UserService } from '../../user/services/user.service'
-import { PrismaService } from '../../prisma/prisma.service'
+import { PrismaService } from '../../../prisma/prisma.service'
 
 describe('ArticleService', () => {
     let articleService: ArticleService

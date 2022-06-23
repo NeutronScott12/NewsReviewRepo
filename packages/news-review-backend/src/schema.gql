@@ -42,10 +42,19 @@ type Review {
   exampleField: Int!
 }
 
+type UserResponse {
+  id: String
+  username: String
+  email: String
+  first_name: String
+  last_name: String
+}
+
 type Query {
   fetch_all_articles: [Article!]!
   fetch_one_article(fetchArticleInput: FetchArticleInput!): Article!
   review(id: Int!): Review!
+  fetch_current_user: UserResponse!
 }
 
 input FetchArticleInput {
@@ -61,6 +70,7 @@ type Mutation {
   updateReview(updateReviewInput: UpdateReviewInput!): Review!
   removeReview(id: Int!): Review!
   create_user(createUserInput: CreateUserInput!): StandardResponseModel!
+  update_user(updateUserInput: UpdateUserInput!): StandardResponseModel!
 }
 
 input CreateArticleInput {
@@ -96,6 +106,14 @@ input UpdateReviewInput {
 }
 
 input CreateUserInput {
+  email: String
+  password: String
+  first_name: String
+  last_name: String
+  username: String
+}
+
+input UpdateUserInput {
   email: String
   password: String
   first_name: String
