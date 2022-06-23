@@ -37,7 +37,6 @@ const SlateEditor: React.FC<ISlateEditor> = ({
 
 	return (
 		<div>
-			<h4>{editorTitle}</h4>
 			<Slate
 				//@ts-ignore
 				editor={editor}

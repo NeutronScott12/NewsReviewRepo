@@ -62,7 +62,7 @@ export const Icon = React.forwardRef(({ className, ...props }: Icon, ref) => (
 			'material-icons',
 			className,
 			css`
-				font-size: 18px;
+				font-size: 24px;
 				vertical-align: text-bottom;
 			`
 		)}

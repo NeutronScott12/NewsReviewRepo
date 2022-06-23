@@ -55,6 +55,9 @@ export const Header = () => {
 							>
 								<Button color="inherit">Create Article</Button>
 							</Link>
+							<Link className={classes.iconStyle} to="/profile">
+								<Button color="inherit">Profile</Button>
+							</Link>
 							<Button
 								onClick={() => {
 									localStorage.removeItem(

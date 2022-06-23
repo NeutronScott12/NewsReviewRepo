@@ -1,0 +1,22 @@
+query GetCurrentUser {
+	fetch_current_user {
+		email
+		username
+		last_name
+		first_name
+	}
+}
+
+input UpdateUserInput {
+	email: String
+	username: String
+	last_name: String
+	first_name: String
+}
+
+mutation UpdateUser($updateUserInput: UpdateUserInput!) {
+	update_user(updateUserInput: $updateUserInput) {
+		success
+		message
+	}
+}

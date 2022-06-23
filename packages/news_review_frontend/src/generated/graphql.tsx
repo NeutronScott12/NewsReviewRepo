@@ -62,6 +62,7 @@ export type Mutation = {
   removeReview: Review;
   updateArticle: Article;
   updateReview: Review;
+  update_user: StandardResponseModel;
 };
 
 
@@ -99,9 +100,15 @@ export type MutationUpdateReviewArgs = {
   updateReviewInput: UpdateReviewInput;
 };
 
+
+export type MutationUpdate_UserArgs = {
+  updateUserInput: UpdateUserInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   fetch_all_articles: Array<Article>;
+  fetch_current_user: UserResponse;
   fetch_one_article: Article;
   review: Review;
 };
@@ -151,6 +158,14 @@ export type UpdateReviewInput = {
   id: Scalars['Int'];
 };
 
+export type UpdateUserInput = {
+  email?: InputMaybe<Scalars['String']>;
+  first_name?: InputMaybe<Scalars['String']>;
+  last_name?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
 export type UserEntity = {
   __typename?: 'UserEntity';
   articles: Array<Article>;
@@ -160,6 +175,15 @@ export type UserEntity = {
   last_name: Scalars['String'];
   role: Roles;
   username: Scalars['String'];
+};
+
+export type UserResponse = {
+  __typename?: 'UserResponse';
+  email?: Maybe<Scalars['String']>;
+  first_name?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  last_name?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
 };
 
 export type ArticleFragmentFragment = { __typename?: 'Article', id: string, title: string, body: string, created_at: any, updated_at: any, author: { __typename?: 'UserEntity', id: string, username: string, first_name: string, last_name: string } };
@@ -176,12 +200,31 @@ export type FetchOneArticleQueryVariables = Exact<{
 
 export type FetchOneArticleQuery = { __typename?: 'Query', fetch_one_article: { __typename?: 'Article', id: string, title: string, body: string, created_at: any, updated_at: any, author: { __typename?: 'UserEntity', id: string, username: string, first_name: string, last_name: string } } };
 
+export type CreateArticleMutationVariables = Exact<{
+  createArticleInput: CreateArticleInput;
+}>;
+
+
+export type CreateArticleMutation = { __typename?: 'Mutation', create_article: { __typename?: 'Article', id: string, title: string, body: string, created_at: any, updated_at: any, author: { __typename?: 'UserEntity', id: string, username: string, first_name: string, last_name: string } } };
+
 export type CreateUserMutationVariables = Exact<{
   createUserInput: CreateUserInput;
 }>;
 
 
 export type CreateUserMutation = { __typename?: 'Mutation', create_user: { __typename?: 'StandardResponseModel', success: boolean, message: string } };
+
+export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCurrentUserQuery = { __typename?: 'Query', fetch_current_user: { __typename?: 'UserResponse', email?: string | null, username?: string | null, last_name?: string | null, first_name?: string | null } };
+
+export type UpdateUserMutationVariables = Exact<{
+  updateUserInput: UpdateUserInput;
+}>;
+
+
+export type UpdateUserMutation = { __typename?: 'Mutation', update_user: { __typename?: 'StandardResponseModel', success: boolean, message: string } };
 
 export const ArticleFragmentFragmentDoc = gql`
     fragment ArticleFragment on Article {
@@ -267,6 +310,39 @@ export function useFetchOneArticleLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type FetchOneArticleQueryHookResult = ReturnType<typeof useFetchOneArticleQuery>;
 export type FetchOneArticleLazyQueryHookResult = ReturnType<typeof useFetchOneArticleLazyQuery>;
 export type FetchOneArticleQueryResult = Apollo.QueryResult<FetchOneArticleQuery, FetchOneArticleQueryVariables>;
+export const CreateArticleDocument = gql`
+    mutation CreateArticle($createArticleInput: CreateArticleInput!) {
+  create_article(createArticleInput: $createArticleInput) {
+    ...ArticleFragment
+  }
+}
+    ${ArticleFragmentFragmentDoc}`;
+export type CreateArticleMutationFn = Apollo.MutationFunction<CreateArticleMutation, CreateArticleMutationVariables>;
+
+/**
+ * __useCreateArticleMutation__
+ *
+ * To run a mutation, you first call `useCreateArticleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateArticleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createArticleMutation, { data, loading, error }] = useCreateArticleMutation({
+ *   variables: {
+ *      createArticleInput: // value for 'createArticleInput'
+ *   },
+ * });
+ */
+export function useCreateArticleMutation(baseOptions?: Apollo.MutationHookOptions<CreateArticleMutation, CreateArticleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateArticleMutation, CreateArticleMutationVariables>(CreateArticleDocument, options);
+      }
+export type CreateArticleMutationHookResult = ReturnType<typeof useCreateArticleMutation>;
+export type CreateArticleMutationResult = Apollo.MutationResult<CreateArticleMutation>;
+export type CreateArticleMutationOptions = Apollo.BaseMutationOptions<CreateArticleMutation, CreateArticleMutationVariables>;
 export const CreateUserDocument = gql`
     mutation CreateUser($createUserInput: CreateUserInput!) {
   create_user(createUserInput: $createUserInput) {
@@ -301,3 +377,74 @@ export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
 export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
 export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
+export const GetCurrentUserDocument = gql`
+    query GetCurrentUser {
+  fetch_current_user {
+    email
+    username
+    last_name
+    first_name
+  }
+}
+    `;
+
+/**
+ * __useGetCurrentUserQuery__
+ *
+ * To run a query within a React component, call `useGetCurrentUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCurrentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCurrentUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCurrentUserQuery(baseOptions?: Apollo.QueryHookOptions<GetCurrentUserQuery, GetCurrentUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(GetCurrentUserDocument, options);
+      }
+export function useGetCurrentUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCurrentUserQuery, GetCurrentUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCurrentUserQuery, GetCurrentUserQueryVariables>(GetCurrentUserDocument, options);
+        }
+export type GetCurrentUserQueryHookResult = ReturnType<typeof useGetCurrentUserQuery>;
+export type GetCurrentUserLazyQueryHookResult = ReturnType<typeof useGetCurrentUserLazyQuery>;
+export type GetCurrentUserQueryResult = Apollo.QueryResult<GetCurrentUserQuery, GetCurrentUserQueryVariables>;
+export const UpdateUserDocument = gql`
+    mutation UpdateUser($updateUserInput: UpdateUserInput!) {
+  update_user(updateUserInput: $updateUserInput) {
+    success
+    message
+  }
+}
+    `;
+export type UpdateUserMutationFn = Apollo.MutationFunction<UpdateUserMutation, UpdateUserMutationVariables>;
+
+/**
+ * __useUpdateUserMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
+ *   variables: {
+ *      updateUserInput: // value for 'updateUserInput'
+ *   },
+ * });
+ */
+export function useUpdateUserMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserMutation, UpdateUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, options);
+      }
+export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
+export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>;
+export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;

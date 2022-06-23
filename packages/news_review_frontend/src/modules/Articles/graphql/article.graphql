@@ -27,3 +27,14 @@ query FetchOneArticle($fetchArticleInput: FetchArticleInput!) {
 		...ArticleFragment
 	}
 }
+
+input CreateArticleInput {
+	title: String!
+	body: String!
+}
+
+mutation CreateArticle($createArticleInput: CreateArticleInput!) {
+	create_article(createArticleInput: $createArticleInput) {
+		...ArticleFragment
+	}
+}

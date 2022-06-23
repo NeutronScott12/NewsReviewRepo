@@ -2,9 +2,12 @@ import React, { useState } from 'react'
 import { useFormik } from 'formik'
 
 import SlateEditor from '../../../common/Editor'
-import { Button } from '@mui/material'
+import { Button, TextField, Typography } from '@mui/material'
+import { useCreateArticleMutation } from '../../../generated/graphql'
 
 export const CreateArticleContainer = () => {
+	const [createArticle] = useCreateArticleMutation()
+
 	const [value, setValue] = useState([
 		{
 			//@ts-ignore
@@ -13,19 +16,50 @@ export const CreateArticleContainer = () => {
 		},
 	] as Node[])
 
-	const { handleSubmit } = useFormik({
+	const { handleSubmit, values, handleChange, touched, errors } = useFormik({
 		initialValues: {
-			body: '',
+			title: '',
 		},
-		onSubmit() {
+		async onSubmit({ title }) {
 			console.log('value', value)
+
+			const result = await createArticle({
+				variables: {
+					createArticleInput: {
+						title,
+						body: JSON.stringify(value),
+					},
+				},
+			})
+
+			console.log('result', result)
 		},
 	})
 
 	return (
-		<div>
-			CreateArticleContainer
+		<div style={{ marginTop: '.5rem' }}>
+			<Typography
+				variant="h5"
+				component="div"
+				style={{ marginBottom: '1rem' }}
+				gutterBottom
+			>
+				CreateArticleContainer
+			</Typography>
+
 			<form onSubmit={handleSubmit}>
+				<TextField
+					autoComplete="off"
+					fullWidth
+					label="Title"
+					name="title"
+					value={values.title}
+					onChange={handleChange}
+					error={touched.title && Boolean(errors.title)}
+					helperText={touched.title && errors.title}
+					style={{ marginBottom: '1rem' }}
+				/>
+
 				<SlateEditor
 					value={value}
 					setValue={setValue}

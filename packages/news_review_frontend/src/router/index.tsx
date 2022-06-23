@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { Suspense, lazy } from 'react'
 import { useRoutes } from 'react-router'
 
 import { ArticleContainer } from '../modules/Articles/containers/ArticleContainer'
@@ -8,8 +8,15 @@ import { LoginContainer } from '../modules/Authentication/containers/Login'
 import { RegisterContainer } from '../modules/Authentication/containers/Register'
 import { TwoFactorLoginContainer } from '../modules/Authentication/containers/TwoFactorLogin'
 import { HomeLayout } from '../modules/Home'
+import { LoadingComponent } from '../partials/Loading'
 import { useLoggedIn } from '../utils/hooks/customApolloHooks'
 import { ProtectedRoute } from './ProtectedRoute'
+
+const ProfileContainer = lazy(() =>
+	import('../modules/Profile/container/ProfileContainer').then((module) => ({
+		default: module.ProfileContainer,
+	}))
+)
 
 export const SiteRouter = () => {
 	const { data } = useLoggedIn()
@@ -56,6 +63,14 @@ export const SiteRouter = () => {
 					element: <CreateArticleContainer />,
 				},
 			],
+		},
+		{
+			path: '/profile',
+			element: (
+				<Suspense fallback={<LoadingComponent />}>
+					<ProfileContainer />,
+				</Suspense>
+			),
 		},
 	])
 
