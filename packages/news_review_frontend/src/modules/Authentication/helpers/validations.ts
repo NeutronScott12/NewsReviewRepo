@@ -1,4 +1,4 @@
-import { object, ref, string } from 'yup'
+import { object, string } from 'yup'
 
 const baseSchema = object({
 	email: string().email().required('Email is required'),

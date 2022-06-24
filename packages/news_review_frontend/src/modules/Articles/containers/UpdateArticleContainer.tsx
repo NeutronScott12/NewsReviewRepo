@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
 
 import { UpdateArticleComponent } from '../components/UpdateArticleComponent'
@@ -16,6 +16,7 @@ export const UpdateArticleContainer = () => {
 
 	return data ? (
 		<UpdateArticleComponent
+			id={data.fetch_one_article.id}
 			value_body={data.fetch_one_article.json_body}
 			title={data.fetch_one_article.title}
 		/>

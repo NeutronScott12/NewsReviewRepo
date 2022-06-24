@@ -26,7 +26,7 @@ export const ForgotPasswordForm = () => {
 			try {
 				console.log(values)
 
-				const result = await client.forgot_password({
+				await client.forgot_password({
 					email: values.email,
 					redirect_url: '',
 				})

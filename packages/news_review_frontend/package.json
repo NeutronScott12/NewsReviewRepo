@@ -84,7 +84,7 @@
 		"@types/styled-components": "^5.1.25",
 		"@types/yup": "^0.29.14",
 		"faker": "^6.6.6",
-		"lerna": "^5.1.4",
+		"lerna": "^5.1.5",
 		"rimraf": "^3.0.2"
 	}
 }

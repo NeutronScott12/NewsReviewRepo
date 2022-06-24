@@ -63,7 +63,7 @@ export const SiteRouter = () => {
 			path: 'article/*',
 			children: [
 				{
-					path: ':title',
+					path: ':slug',
 					element: <ArticleContainer />,
 				},
 				{

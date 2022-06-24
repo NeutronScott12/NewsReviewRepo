@@ -32,11 +32,24 @@ query FetchOneArticle($fetchArticleInput: FetchArticleInput!) {
 
 input CreateArticleInput {
 	title: String!
-	body: String!
+	plain_text_body: String!
+	json_body: Object!
 }
 
 mutation CreateArticle($createArticleInput: CreateArticleInput!) {
 	create_article(createArticleInput: $createArticleInput) {
+		...ArticleFragment
+	}
+}
+
+input UpdateArticleInput {
+	id: String!
+	json_body: Object!
+	plain_text_body: String
+}
+
+mutation UpdateArticle($updateArticleInput: UpdateArticleInput!) {
+	update_article(updateArticleInput: $updateArticleInput) {
 		...ArticleFragment
 	}
 }

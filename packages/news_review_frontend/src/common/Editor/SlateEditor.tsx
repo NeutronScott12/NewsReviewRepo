@@ -1,6 +1,6 @@
-import React, { useState, useMemo, useCallback } from 'react'
+import React, { useMemo, useCallback } from 'react'
 import { cx, css } from '@emotion/css'
-import { createEditor, Descendant } from 'slate'
+import { createEditor } from 'slate'
 import { withHistory } from 'slate-history'
 import { Slate, Editable, withReact } from 'slate-react'
 import { BlockButton, LinkButton, MarkButton, Toolbar } from './components'

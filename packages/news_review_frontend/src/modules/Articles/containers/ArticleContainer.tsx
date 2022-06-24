@@ -6,12 +6,12 @@ import { useFetchOneArticleQuery } from '../../../generated/graphql'
 import { ArticleView } from '../views/ArticlePage'
 
 export const ArticleContainer = () => {
-	const { title } = useParams() as { title: string }
+	const { slug } = useParams() as { slug: string }
 
 	const { data, loading } = useFetchOneArticleQuery({
 		variables: {
 			fetchArticleInput: {
-				title,
+				slug,
 			},
 		},
 	})

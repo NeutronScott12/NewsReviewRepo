@@ -1,4 +1,4 @@
-import react from 'react'
+import React from 'react'
 import { ForgotPasswordForm } from '../components/FogotPasswordForm'
 
 export const ForgotPasswordContainer = () => {

@@ -1,4 +1,4 @@
-import { BaseText, Editor, Node, Transforms } from 'slate'
+import { Editor, Node, Transforms } from 'slate'
 
 export const LIST_TYPES = ['numbered-list', 'bulleted-list']
 

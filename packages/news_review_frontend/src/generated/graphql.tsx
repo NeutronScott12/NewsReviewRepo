@@ -66,8 +66,8 @@ export type Mutation = {
   create_user: StandardResponseModel;
   removeArticle: StandardResponseModel;
   removeReview: Review;
-  updateArticle: Article;
   updateReview: Review;
+  update_article: Article;
   update_user: StandardResponseModel;
 };
 
@@ -97,13 +97,13 @@ export type MutationRemoveReviewArgs = {
 };
 
 
-export type MutationUpdateArticleArgs = {
-  updateArticleInput: UpdateArticleInput;
+export type MutationUpdateReviewArgs = {
+  updateReviewInput: UpdateReviewInput;
 };
 
 
-export type MutationUpdateReviewArgs = {
-  updateReviewInput: UpdateReviewInput;
+export type MutationUpdate_ArticleArgs = {
+  updateArticleInput: UpdateArticleInput;
 };
 
 
@@ -213,6 +213,13 @@ export type CreateArticleMutationVariables = Exact<{
 
 
 export type CreateArticleMutation = { __typename?: 'Mutation', create_article: { __typename?: 'Article', id: string, title: string, plain_text_body: string, json_body: Array<any>, slug: string, created_at: any, updated_at: any, author: { __typename?: 'UserEntity', id: string, username: string, first_name: string, last_name: string } } };
+
+export type UpdateArticleMutationVariables = Exact<{
+  updateArticleInput: UpdateArticleInput;
+}>;
+
+
+export type UpdateArticleMutation = { __typename?: 'Mutation', update_article: { __typename?: 'Article', id: string, title: string, plain_text_body: string, json_body: Array<any>, slug: string, created_at: any, updated_at: any, author: { __typename?: 'UserEntity', id: string, username: string, first_name: string, last_name: string } } };
 
 export type CreateUserMutationVariables = Exact<{
   createUserInput: CreateUserInput;
@@ -352,6 +359,39 @@ export function useCreateArticleMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateArticleMutationHookResult = ReturnType<typeof useCreateArticleMutation>;
 export type CreateArticleMutationResult = Apollo.MutationResult<CreateArticleMutation>;
 export type CreateArticleMutationOptions = Apollo.BaseMutationOptions<CreateArticleMutation, CreateArticleMutationVariables>;
+export const UpdateArticleDocument = gql`
+    mutation UpdateArticle($updateArticleInput: UpdateArticleInput!) {
+  update_article(updateArticleInput: $updateArticleInput) {
+    ...ArticleFragment
+  }
+}
+    ${ArticleFragmentFragmentDoc}`;
+export type UpdateArticleMutationFn = Apollo.MutationFunction<UpdateArticleMutation, UpdateArticleMutationVariables>;
+
+/**
+ * __useUpdateArticleMutation__
+ *
+ * To run a mutation, you first call `useUpdateArticleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateArticleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateArticleMutation, { data, loading, error }] = useUpdateArticleMutation({
+ *   variables: {
+ *      updateArticleInput: // value for 'updateArticleInput'
+ *   },
+ * });
+ */
+export function useUpdateArticleMutation(baseOptions?: Apollo.MutationHookOptions<UpdateArticleMutation, UpdateArticleMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateArticleMutation, UpdateArticleMutationVariables>(UpdateArticleDocument, options);
+      }
+export type UpdateArticleMutationHookResult = ReturnType<typeof useUpdateArticleMutation>;
+export type UpdateArticleMutationResult = Apollo.MutationResult<UpdateArticleMutation>;
+export type UpdateArticleMutationOptions = Apollo.BaseMutationOptions<UpdateArticleMutation, UpdateArticleMutationVariables>;
 export const CreateUserDocument = gql`
     mutation CreateUser($createUserInput: CreateUserInput!) {
   create_user(createUserInput: $createUserInput) {

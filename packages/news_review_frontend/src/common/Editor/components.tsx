@@ -48,26 +48,28 @@ export const Button = React.forwardRef(
 	)
 )
 
-interface Icon {
+interface IconProps {
 	className?: string
 	children: React.ReactNode
 }
 
-export const Icon = React.forwardRef(({ className, ...props }: Icon, ref) => (
-	<span
-		{...props}
-		//@ts-ignore
-		ref={ref}
-		className={cx(
-			'material-icons',
-			className,
-			css`
-				font-size: 24px;
-				vertical-align: text-bottom;
-			`
-		)}
-	/>
-))
+export const Icon = React.forwardRef(
+	({ className, ...props }: IconProps, ref) => (
+		<span
+			{...props}
+			//@ts-ignore
+			ref={ref}
+			className={cx(
+				'material-icons',
+				className,
+				css`
+					font-size: 24px;
+					vertical-align: text-bottom;
+				`
+			)}
+		/>
+	)
+)
 
 export const Menu = React.forwardRef(({ className, ...props }: IProps, ref) => (
 	<div

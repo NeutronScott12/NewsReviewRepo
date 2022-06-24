@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense } from 'react'
+import React, { Suspense } from 'react'
 import { CircularProgress, Container, Grid } from '@mui/material'
 
 import { ArticleFeedContainer } from './containers/ArticleFeedContainer'

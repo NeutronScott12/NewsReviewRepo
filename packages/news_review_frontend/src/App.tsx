@@ -33,7 +33,7 @@ function App() {
 			console.log('ERROR', error)
 			setLoaded(false)
 		})
-	}, [])
+	}, [client])
 
 	return loaded ? (
 		<LoadingComponent />
