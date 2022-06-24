@@ -18,6 +18,14 @@ const ProfileContainer = lazy(() =>
 	}))
 )
 
+const UpdateProfileContainer = lazy(() =>
+	import('../modules/Profile/container/UpdateProfileContainer').then(
+		(module) => ({
+			default: module.UpdateProfileContainer,
+		})
+	)
+)
+
 const UpdateArticleContainer = lazy(() =>
 	import('../modules/Articles/containers/UpdateArticleContainer').then(
 		(module) => ({
@@ -81,12 +89,25 @@ export const SiteRouter = () => {
 			],
 		},
 		{
-			path: '/profile',
-			element: (
-				<Suspense fallback={<LoadingComponent />}>
-					<ProfileContainer />,
-				</Suspense>
-			),
+			path: 'profile/*',
+			children: [
+				{
+					path: '',
+					element: (
+						<Suspense fallback={<LoadingComponent />}>
+							<ProfileContainer />,
+						</Suspense>
+					),
+				},
+				{
+					path: 'settings',
+					element: (
+						<Suspense fallback={<LoadingComponent />}>
+							<UpdateProfileContainer />
+						</Suspense>
+					),
+				},
+			],
 		},
 	])
 

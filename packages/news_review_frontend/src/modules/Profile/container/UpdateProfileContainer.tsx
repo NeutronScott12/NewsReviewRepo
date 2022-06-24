@@ -2,18 +2,19 @@ import React from 'react'
 import { omit } from 'lodash'
 
 import { useGetCurrentUserQuery } from '../../../generated/graphql'
-import { UpdateProfileForm } from '../components/UpdateProfileForm/UpdateProfileForm'
 import { LoadingComponent } from '../../../partials/Loading'
-import { ProfilePage } from '../views/ProfileView'
+import { UpdateProfileForm } from '../components/UpdateProfileForm/UpdateProfileForm'
 
-export const ProfileContainer = () => {
+export const UpdateProfileContainer = () => {
 	const { data, loading } = useGetCurrentUserQuery()
+
+	console.log('data', data)
 
 	if (loading || !data) {
 		return <LoadingComponent />
 	} else {
 		const info = omit(data.fetch_current_user, ['__typename'])
 
-		return <ProfilePage {...info} />
+		return <UpdateProfileForm {...info} />
 	}
 }

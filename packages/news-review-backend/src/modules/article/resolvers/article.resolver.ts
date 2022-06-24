@@ -17,6 +17,7 @@ import { FetchArticleInput } from '../dto/inputs/fetch_article.input'
 import { RemoveArticleInput } from '../dto/inputs/remove-article.input'
 import { CaslAbilityFactory } from '../../../casl/casl-ability.factory'
 import { UserService } from '../../user/services/user.service'
+import { createSlug } from '../helpers'
 
 @Resolver(() => Article)
 export class ArticleResolver {
@@ -41,17 +42,11 @@ export class ArticleResolver {
             )
         }
 
-        console.log('user', user)
-        const slug = createArticleInput.title
-            .trim()
-            .toLowerCase()
-            .replace(/ /g, '-')
-
         //@TODO - Instead of using binary ID, we could setup a cookie or session holding the user ID
         return this.articleService.create({
             data: {
                 ...createArticleInput,
-                slug,
+                slug: createSlug(createArticleInput.title),
                 author: { connect: { binary_auth_id: user.user_id } },
             },
             include: { author: true },
@@ -66,13 +61,19 @@ export class ArticleResolver {
     }
 
     @Query(() => Article)
-    fetch_one_article(
+    async fetch_one_article(
         @Args('fetchArticleInput') { id, title, slug }: FetchArticleInput,
     ) {
-        return this.articleService.fetchOne({
+        console.log('slug', slug)
+
+        const article = await this.articleService.fetchOne({
             where: { OR: [{ id }, { title }, { slug }] },
             include: { author: true },
         })
+
+        console.log('article', article)
+
+        return article
     }
 
     // @UseGuards(PoliciesGuard)
@@ -106,7 +107,8 @@ export class ArticleResolver {
                 id,
             },
             data: {
-                title,
+                slug: createSlug(title),
+                title: title,
                 plain_text_body,
                 json_body,
             },
