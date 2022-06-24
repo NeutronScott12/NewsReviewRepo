@@ -77,24 +77,29 @@ export class ArticleResolver {
 
     // @UseGuards(PoliciesGuard)
     @Mutation(() => Article)
-    async updateArticle(
+    async update_article(
         @Args('updateArticleInput')
-        { id, plain_text_body, title, json_body }: UpdateArticleInput,
+        { plain_text_body, title, json_body, id }: UpdateArticleInput,
         @CurrentUser() user: ICurrentUser,
     ) {
-        const userEntity = await this.userService.fetchOne({
-            where: { id: user.user_id },
-            include: { articles: true },
-        })
+        const article = await this.articleService
+            .fetchOne({
+                where: {
+                    id,
+                },
+            })
+            .author()
 
-        if (!userEntity) {
+        console.log('article', article)
+
+        if (article.binary_auth_id !== user.user_id) {
             throw new ForbiddenException({
                 message: "You don't have permission to update this article",
             })
         }
 
         //@ts-ignore
-        const ability = this.caslAbilityFactory.createForUser(userEntity)
+        // const ability = this.caslAbilityFactory.createForUser(userEntity)
 
         return this.articleService.updateOne({
             where: {
@@ -105,6 +110,7 @@ export class ArticleResolver {
                 plain_text_body,
                 json_body,
             },
+
             include: { author: true },
         })
     }

@@ -72,7 +72,7 @@ input FetchArticleInput {
 
 type Mutation {
   create_article(createArticleInput: CreateArticleInput!): Article!
-  updateArticle(updateArticleInput: UpdateArticleInput!): Article!
+  update_article(updateArticleInput: UpdateArticleInput!): Article!
   removeArticle(removeArticleInput: RemoveArticleInput!): StandardResponseModel!
   createReview(createReviewInput: CreateReviewInput!): Review!
   updateReview(updateReviewInput: UpdateReviewInput!): Review!
