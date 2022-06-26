@@ -27,6 +27,11 @@ const comment_client = new CommentAPI({
 	application_short_name: 'first-application',
 })
 
+// comment_client.queries
+// 	.fetch_comemnts()
+// 	.then((response) => console.log('START', response))
+// 	.catch((err) => console.log('BIG ERROR', err))
+
 root.render(
 	<React.StrictMode>
 		<ApolloProvider client={client}>

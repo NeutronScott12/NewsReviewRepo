@@ -16,7 +16,7 @@
 		"@testing-library/user-event": "^14.2.1",
 		"@thelasthurrah/authentication_api": "^0.1.21",
 		"@thelasthurrah/binary-stash-authentication": "^0.0.14",
-		"@thelasthurrah/comment_api": "^0.0.20",
+		"@thelasthurrah/comment_api": "^0.0.28",
 		"@types/escape-html": "^1.0.2",
 		"cross-env": "^7.0.3",
 		"emotion": "^11.0.0",

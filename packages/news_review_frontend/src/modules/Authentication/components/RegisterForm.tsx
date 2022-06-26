@@ -34,6 +34,8 @@ export const RegisterForm = () => {
 			try {
 				const { email, password, username, repeat_password } = values
 
+				console.log('REGISTER', client)
+
 				const response = await client.register({
 					email,
 					password,
