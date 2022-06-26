@@ -6,6 +6,7 @@ import {
 	AuthenticationAPI,
 	BinaryStashProvider,
 } from '@thelasthurrah/authentication_api'
+import { CommentAPI, BinaryCommentProvider } from '@thelasthurrah/comment_api'
 
 import './styles.css'
 
@@ -20,12 +21,20 @@ const binary_client = new AuthenticationAPI(
 	'first-application'
 )
 
+const comment_client = new CommentAPI({
+	http_uri: 'http://localhost:4000/graphql',
+	web_socket_uri: 'ws://localhost:4003/graphql',
+	application_short_name: 'first-application',
+})
+
 root.render(
 	<React.StrictMode>
 		<ApolloProvider client={client}>
 			<Router>
 				<BinaryStashProvider client={binary_client}>
-					<App />
+					<BinaryCommentProvider client={comment_client}>
+						<App />
+					</BinaryCommentProvider>
 				</BinaryStashProvider>
 			</Router>
 		</ApolloProvider>

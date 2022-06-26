@@ -1,6 +1,7 @@
 import { Button } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { CommentComponent } from '../components/CommentComponent'
 
 interface IArticleView {
 	title: string
@@ -30,6 +31,8 @@ export const ArticleView: React.FC<IArticleView> = ({
 				Written By: {first_name} {last_name}
 			</h3>
 			<p>{plain_text_body}</p>
+
+			<CommentComponent />
 		</div>
 	)
 }
