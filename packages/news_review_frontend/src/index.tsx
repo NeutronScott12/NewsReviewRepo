@@ -6,13 +6,16 @@ import {
 	AuthenticationAPI,
 	BinaryStashProvider,
 } from '@thelasthurrah/authentication_api'
-import { CommentAPI, BinaryCommentProvider } from '@thelasthurrah/comment_api'
+// import { BinaryCommentProvider } from '@thelasthurrah/comment_api'
+import { BinaryStashClient } from '@thelasthurrah/common'
 
 import './styles.css'
 
 import { client } from './apollo'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
+import { CommentAPI } from '@thelasthurrah/comment_api'
+// import { CommentAPI } from './demo/src'
 
 const root = createRoot(document.getElementById('root')!)
 
@@ -27,19 +30,30 @@ const comment_client = new CommentAPI({
 	application_short_name: 'first-application',
 })
 
-// comment_client.queries
+comment_client.queries
+	.fetch_comemnts()
+	.then((response) => console.log('START', response))
+	.catch((err) => console.log('BIG ERROR', err))
+
+// const binaryStashClient = new BinaryStashClient({
+// 	http_uri: 'http://localhost:4000/graphql',
+// 	ws_uri: 'ws://localhost:4003/graphql',
+// 	application_short_name: 'first-application',
+// })
+
+// binaryStashClient.comment_queries
 // 	.fetch_comemnts()
-// 	.then((response) => console.log('START', response))
-// 	.catch((err) => console.log('BIG ERROR', err))
+// 	.then((resp) => console.log('BINARY STASH RESPONSE', resp))
+// 	.catch(console.error)
 
 root.render(
 	<React.StrictMode>
 		<ApolloProvider client={client}>
 			<Router>
 				<BinaryStashProvider client={binary_client}>
-					<BinaryCommentProvider client={comment_client}>
-						<App />
-					</BinaryCommentProvider>
+					{/* <BinaryCommentProvider client={comment_client}>  */}
+					<App />
+					{/* </BinaryCommentProvider>  */}
 				</BinaryStashProvider>
 			</Router>
 		</ApolloProvider>

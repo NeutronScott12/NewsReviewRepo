@@ -16,6 +16,8 @@ enum Roles {
 }
 
 model User {
+  // Change to Int when it's working without previewfeatures
+  // id Int @id
   id               String    @id @default(uuid())
   email            String?   @unique
   username         String?   @unique
@@ -26,7 +28,9 @@ model User {
   created_at       DateTime  @default(now())
   updated_at       DateTime  @updatedAt
   role             Roles     @default(USER)
-  articles         Article[] 
+  articles         Article[]
+
+  //   @@index([id], type: Hash)
 }
 
 model Article {
