@@ -16,7 +16,7 @@ const authLink = setContext((_, { headers }) => {
 	}
 })
 
-export const client = new ApolloClient({
+export const apollo_client = new ApolloClient({
 	link: authLink.concat(httpLink),
 	cache,
 })

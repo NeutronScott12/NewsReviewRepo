@@ -11,10 +11,12 @@ import { BinaryStashClient } from '@thelasthurrah/common'
 
 import './styles.css'
 
-import { client } from './apollo'
+import { apollo_client } from './apollo'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { CommentAPI } from '@thelasthurrah/comment_api'
+// import { CommentAPI } from './demo/src'
+// import { CommentAPI } from '@thelasthurrah/comment_api'
 // import { CommentAPI } from './demo/src'
 
 const root = createRoot(document.getElementById('root')!)
@@ -48,7 +50,7 @@ comment_client.queries
 
 root.render(
 	<React.StrictMode>
-		<ApolloProvider client={client}>
+		<ApolloProvider client={apollo_client}>
 			<Router>
 				<BinaryStashProvider client={binary_client}>
 					{/* <BinaryCommentProvider client={comment_client}>  */}
