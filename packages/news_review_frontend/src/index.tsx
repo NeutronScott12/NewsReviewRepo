@@ -30,8 +30,11 @@ const comment_client = new CommentAPI({
 	http_uri: 'http://localhost:4000/graphql',
 	web_socket_uri: 'ws://localhost:4003/graphql',
 	application_short_name: 'first-application',
+	apollo: true,
+	graphql_request: true,
 })
 
+//Apollo returns undefined here
 comment_client.queries
 	.fetch_comemnts()
 	.then((response) => console.log('START', response))
