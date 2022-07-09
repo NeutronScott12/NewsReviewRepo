@@ -12,7 +12,7 @@ import { JwtStrategy } from './JwtStrategy'
     imports: [
         PassportModule,
         JwtModule.registerAsync(asyncJwtModuleOption),
-        CacheModule.registerAsync(cacheConfigAsync),
+        // CacheModule.registerAsync(cacheConfigAsync),
     ],
     providers: [JwtStrategy],
 })

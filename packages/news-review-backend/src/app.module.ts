@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule, ConfigService } from '@nestjs/config'
 
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
@@ -17,6 +17,7 @@ import { CaslModule } from './casl/casl.module'
     imports: [
         ConfigModule.forRoot(configOptions),
         GraphQLModule.forRootAsync(asyncGraphqlConfig),
+
         AuthModule,
         ArticleModule,
         ReviewModule,

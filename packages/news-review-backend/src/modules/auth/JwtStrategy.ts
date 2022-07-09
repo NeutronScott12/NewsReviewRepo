@@ -17,7 +17,7 @@ import { AUTHENTICATION_CACHE_KEY, USER_NOT_VERIFIED } from '../../constants'
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor(
-        @Inject(CACHE_MANAGER) private cacheManager: Cache,
+        // @Inject(CACHE_MANAGER) private cacheManager: Cache,
         configService: ConfigService,
     ) {
         super({
