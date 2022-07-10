@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,27 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Roles {
-  ADMIN
-  USER
-}
-
 model User {
-  // Change to Int when it's working without previewfeatures
-  // id Int @id
   id               String    @id @default(uuid())
   email            String?   @unique
   username         String?   @unique
   binary_auth_id   String    @unique
   first_name       String?
   last_name        String?
-  fully_registered Boolean   @default(false)
   created_at       DateTime  @default(now())
   updated_at       DateTime  @updatedAt
   role             Roles     @default(USER)
+  fully_registered Boolean   @default(false)
   articles         Article[]
-
-  //   @@index([id], type: Hash)
 }
 
 model Article {
@@ -50,4 +38,9 @@ model Review {
   id         String   @id @default(uuid())
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+}
+
+enum Roles {
+  ADMIN
+  USER
 }
