@@ -1,6 +1,6 @@
 import React from 'react'
 import { useFormik } from 'formik'
-import { useBinaryMutations } from '@thelasthurrah/authentication_api'
+import { useBinaryAuthMutations } from '@thelasthurrah/common'
 import { Button, TextField } from '@mui/material'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -9,7 +9,7 @@ import { ErrorAlert } from '../../../partials/ErrorAlert'
 import { useCreateUserMutation } from '../../../generated/graphql'
 
 export const TwoFactorLoginForm = () => {
-	const client = useBinaryMutations()
+	const client = useBinaryAuthMutations()
 	const { setErrorMessage, setError, checkError, errorMessage } =
 		useErrorAndSuccess()
 	const [createUser] = useCreateUserMutation()

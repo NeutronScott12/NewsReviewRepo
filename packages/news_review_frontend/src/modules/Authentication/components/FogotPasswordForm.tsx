@@ -1,12 +1,13 @@
 import React from 'react'
 import { useFormik } from 'formik'
 import { Button, TextField } from '@mui/material'
+import { useBinaryAuthMutations } from '@thelasthurrah/common'
+
 import { useErrorAndSuccess } from '../../../utils/hooks/errorAndSuccess'
 import { ErrorAlert } from '../../../partials/ErrorAlert'
-import { useBinaryMutations } from '@thelasthurrah/authentication_api'
 
 export const ForgotPasswordForm = () => {
-	const client = useBinaryMutations()
+	const client = useBinaryAuthMutations()
 	const { setErrorMessage, setError, checkError, errorMessage } =
 		useErrorAndSuccess()
 

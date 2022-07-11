@@ -1,9 +1,9 @@
 import React from 'react'
 import { useFormik } from 'formik'
 import { Link, useNavigate } from 'react-router-dom'
-
-import { useBinaryMutations } from '@thelasthurrah/authentication_api'
+import { useBinaryAuthMutations } from '@thelasthurrah/common'
 import { Container, TextField, Button } from '@mui/material'
+
 import { loginValidation } from '../helpers/validations'
 import { useErrorAndSuccess } from '../../../utils/hooks/errorAndSuccess'
 import { ErrorAlert } from '../../../partials/ErrorAlert'
@@ -18,7 +18,7 @@ interface ILoginFormValues {
 
 export const LoginForm = () => {
 	const navigate = useNavigate()
-	const client = useBinaryMutations()
+	const client = useBinaryAuthMutations()
 	const [createUser] = useCreateUserMutation()
 	const { setErrorMessage, setError, checkError, errorMessage } =
 		useErrorAndSuccess()

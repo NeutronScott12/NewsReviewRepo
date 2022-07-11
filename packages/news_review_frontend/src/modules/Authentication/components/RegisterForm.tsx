@@ -1,6 +1,6 @@
 import React from 'react'
 import { useFormik } from 'formik'
-import { useBinaryMutations } from '@thelasthurrah/authentication_api'
+import { useBinaryAuthMutations } from '@thelasthurrah/common'
 import { Button, Container, TextField } from '@mui/material'
 
 import { registerValidation } from '../helpers/validations'
@@ -8,7 +8,7 @@ import { useErrorAndSuccess } from '../../../utils/hooks/errorAndSuccess'
 import { ErrorAlert } from '../../../partials/ErrorAlert'
 
 export const RegisterForm = () => {
-	const client = useBinaryMutations()
+	const client = useBinaryAuthMutations()
 	const { setErrorMessage, setError, checkError, errorMessage } =
 		useErrorAndSuccess()
 

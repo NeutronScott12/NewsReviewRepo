@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from 'react'
-import { useBinaryQueries } from '@thelasthurrah/authentication_api'
+import { useBinaryAuthQueries } from '@thelasthurrah/common'
 
 import { Header } from './partials/Header'
 import { SiteRouter } from './router'
@@ -9,13 +9,12 @@ import { LoadingComponent } from './partials/Loading'
 import { Container } from '@mui/material'
 
 function App() {
-	const client = useBinaryQueries()
-	const [loaded, setLoaded] = React.useState(true)
+	const client = useBinaryAuthQueries()
+	const [loaded, setLoading] = React.useState(true)
 
 	useLayoutEffect(() => {
 		const fetchUser = async () => {
 			const result = await client.currentUser()
-
 			if (result.data.current_user) {
 				cache.writeQuery({
 					query: IS_LOGGED_IN,
@@ -23,15 +22,13 @@ function App() {
 						isLoggedIn: true,
 					},
 				})
-
-				setLoaded(false)
+				setLoading(false)
 			}
-			setLoaded(false)
+			setLoading(false)
 		}
-
 		fetchUser().catch((error) => {
 			console.log('ERROR', error)
-			setLoaded(false)
+			setLoading(false)
 		})
 	}, [client])
 
