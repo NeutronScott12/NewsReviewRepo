@@ -32,7 +32,7 @@ export const ArticleView: React.FC<IArticleView> = ({
 			</h3>
 			<p>{plain_text_body}</p>
 
-			<CommentComponent />
+			<CommentComponent title={title} />
 		</div>
 	)
 }
