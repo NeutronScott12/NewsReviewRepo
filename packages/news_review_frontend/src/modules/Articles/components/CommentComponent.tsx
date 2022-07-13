@@ -6,6 +6,7 @@ import {
 	useBinaryCommentMutations,
 } from '@thelasthurrah/common'
 import Moment from 'react-moment'
+import { EditCommmentComponent } from './EditCommentComponent'
 
 const application_id = '6064eb0c-08c9-4dea-87e7-89574a210644'
 
@@ -145,6 +146,11 @@ export const CommentComponent: React.FC<ICommentComponent> = ({ title }) => {
 										Delete
 									</Button>
 									<Button>Edit</Button>
+									<EditCommmentComponent
+										thread_id={thread_id}
+										comment_id={comment.id}
+										comment_body={comment.plain_text_body}
+									/>
 								</section>
 							</Grid>
 						</Grid>
