@@ -17,11 +17,35 @@ export const CommentComponent: React.FC<ICommentComponent> = ({ title }) => {
 	const client = useBinaryCommentQueries()
 	const commentMutatationsApi = useBinaryCommentMutations()
 	const [comments, changeComments] = useState<any>([])
+	const [thread_id, setThreadId] = useState('')
 
 	useEffect(() => {
-		client.fetch_comemnts().then((response) => {
-			changeComments(response.data.fetch_comments.comments)
-		})
+		commentMutatationsApi
+			.findOneOrCreateOneThread({
+				application_id,
+				title,
+				website_url: window.location.href,
+			})
+			.then((thread) => {
+				if (thread && thread.data) {
+					setThreadId(thread.data.find_one_thread_or_create_one.id)
+
+					client
+						.fetch_comemnts({
+							thread_id:
+								thread.data.find_one_thread_or_create_one.id,
+						})
+						.then((response) => {
+							changeComments(
+								response.data.fetch_comments_by_thread_id
+									.comments
+							)
+						})
+				} else {
+					throw Error('Something went wrong with the thread')
+				}
+			})
+			.catch(console.error)
 	}, [])
 
 	const {
@@ -37,26 +61,36 @@ export const CommentComponent: React.FC<ICommentComponent> = ({ title }) => {
 			body: '',
 		},
 		async onSubmit(values) {
-			const thread = await commentMutatationsApi.findOneOrCreateOneThread(
-				{
-					application_id,
-					title,
-					website_url: 'localhost:3000',
-				}
-			)
-
-			if (!thread) {
-				throw new Error('Thread needed')
-			}
-
 			const result = await commentMutatationsApi.createComment({
 				json_body: [{}],
 				plain_text_body: values.body,
 				application_id,
-				thread_id: thread.data.find_one_thread_or_create_one.id,
+				thread_id,
 			})
+
+			console.log('RESULT', result)
 		},
 	})
+
+	const delete_comment = async (comment_id: string) => {
+		const thread = await commentMutatationsApi.findOneOrCreateOneThread({
+			application_id,
+			title,
+			website_url: 'localhost:3000',
+		})
+
+		if (thread === undefined || !thread.data) {
+			console.log('No Thread')
+			return
+		}
+
+		const result = await commentMutatationsApi.deleteComment({
+			comment_id,
+			thread_id: thread.data.id,
+		})
+
+		console.log('RESULT', result)
+	}
 
 	return (
 		<div>
@@ -102,6 +136,16 @@ export const CommentComponent: React.FC<ICommentComponent> = ({ title }) => {
 										{comment.created_at}
 									</Moment>
 								</p>
+								<section>
+									<Button
+										onClick={() =>
+											delete_comment(comment.id)
+										}
+									>
+										Delete
+									</Button>
+									<Button>Edit</Button>
+								</section>
 							</Grid>
 						</Grid>
 					</Paper>
