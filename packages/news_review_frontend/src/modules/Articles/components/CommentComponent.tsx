@@ -4,9 +4,12 @@ import { useFormik } from 'formik'
 import {
 	useBinaryCommentQueries,
 	useBinaryCommentMutations,
+	useCreateComment,
+	useFetchComments,
 } from '@thelasthurrah/common'
 import Moment from 'react-moment'
 import { EditCommmentComponent } from './EditCommentComponent'
+import { LoadingComponent } from '../../../partials/Loading'
 
 const application_id = '6064eb0c-08c9-4dea-87e7-89574a210644'
 
@@ -14,10 +17,32 @@ interface ICommentComponent {
 	title: string
 }
 
+export enum Sort {
+	Asc = 'ASC',
+	Desc = 'DESC',
+	TopVotes = 'TOP_VOTES',
+}
+
 export const CommentComponent: React.FC<ICommentComponent> = ({ title }) => {
 	const client = useBinaryCommentQueries()
+	const { data, loading } = useFetchComments({
+		client: client.client,
+		thread_id: '50e11d1f-9d10-4688-a110-e02788f331a0',
+	})
+	const [flipper, changeFlipper] = useState(false)
+	const [createComment] = useCreateComment(
+		{
+			thread_id: '50e11d1f-9d10-4688-a110-e02788f331a0',
+		},
+		{
+			application_short_name: 'first-application',
+			limit: 10,
+			skip: 0,
+			sort: Sort.Desc,
+			client: client.client,
+		}
+	)
 	const commentMutatationsApi = useBinaryCommentMutations()
-	const [comments, changeComments] = useState<any>([])
 	const [thread_id, setThreadId] = useState('')
 
 	useEffect(() => {
@@ -30,23 +55,13 @@ export const CommentComponent: React.FC<ICommentComponent> = ({ title }) => {
 			.then((thread) => {
 				if (thread && thread.data) {
 					setThreadId(thread.data.find_one_thread_or_create_one.id)
-
-					client
-						.fetch_comemnts({
-							thread_id:
-								thread.data.find_one_thread_or_create_one.id,
-						})
-						.then((response) => {
-							changeComments(
-								response.data.fetch_comments_by_thread_id
-									.comments
-							)
-						})
 				} else {
 					throw Error('Something went wrong with the thread')
 				}
 			})
 			.catch(console.error)
+
+		console.log('flipper', flipper)
 	}, [])
 
 	const {
@@ -62,12 +77,25 @@ export const CommentComponent: React.FC<ICommentComponent> = ({ title }) => {
 			body: '',
 		},
 		async onSubmit(values) {
-			const result = await commentMutatationsApi.createComment({
-				json_body: [{}],
-				plain_text_body: values.body,
-				application_id,
-				thread_id,
+			const result = await createComment({
+				variables: {
+					createCommentInput: {
+						json_body: [{}],
+						plain_text_body: values.body,
+						application_id,
+						thread_id,
+					},
+				},
 			})
+
+			// {
+			//     json_body: [{}],
+			//     plain_text_body: values.body,
+			//     application_id,
+			//     thread_id,
+			// }
+
+			changeFlipper(true)
 
 			console.log('RESULT', result)
 		},
@@ -93,8 +121,13 @@ export const CommentComponent: React.FC<ICommentComponent> = ({ title }) => {
 		console.log('RESULT', result)
 	}
 
-	return (
+	console.log('DATA', data)
+
+	return loading ? (
+		<LoadingComponent />
+	) : (
 		<div>
+			<p>flipper {flipper}</p>
 			<h1>Comment Component</h1>
 			<form onSubmit={handleSubmit}>
 				<TextField
@@ -118,7 +151,7 @@ export const CommentComponent: React.FC<ICommentComponent> = ({ title }) => {
 					Submit
 				</Button>
 			</form>
-			{comments.map((comment: any) => {
+			{data?.fetch_comments_by_thread_id.comments.map((comment: any) => {
 				return (
 					<Paper
 						key={comment.id}

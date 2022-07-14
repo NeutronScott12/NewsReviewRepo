@@ -23,7 +23,7 @@ root.render(
 	<React.StrictMode>
 		<ApolloProvider client={apollo_client}>
 			<Router>
-				<BinaryStashProvider client={binary_stash_client}>
+				<BinaryStashProvider binaryStashClient={binary_stash_client}>
 					<App />
 				</BinaryStashProvider>
 			</Router>

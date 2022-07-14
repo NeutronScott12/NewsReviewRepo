@@ -39,10 +39,10 @@ export const EditCommmentComponent: React.FC<IEditCommentComponent> = ({
 		},
 	})
 
-	console.log(errors)
+	// console.log('ERRRO', errors)
 
-	const onSubmit: SubmitHandler<IFormInput> = (data: any) => {
-		const result = commentApi.editComment({
+	const onSubmit: SubmitHandler<IFormInput> = async (data: any) => {
+		const result = await commentApi.editComment({
 			comment_id,
 			thread_id,
 			plain_text_body: data.body,
