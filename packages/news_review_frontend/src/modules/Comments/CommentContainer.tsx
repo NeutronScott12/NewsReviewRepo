@@ -1,4 +1,4 @@
-import { CommentComponent } from './Components/CommentComponent'
+import { CommentComponent } from './components/CommentComponent'
 
 interface ICommentContainer {
 	title: string

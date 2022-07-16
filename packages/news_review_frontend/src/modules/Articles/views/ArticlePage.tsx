@@ -1,7 +1,7 @@
 import { Button } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { CommentComponent } from '../components/CommentComponent'
+import { CommentComponent } from '../../Comments/components/CommentComponent'
 
 interface IArticleView {
 	title: string

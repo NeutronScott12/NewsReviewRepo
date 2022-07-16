@@ -26,7 +26,7 @@ export const DeleteCommentComponent = ({
 	})
 
 	const delete_comment = async (comment_id: string) => {
-		const result = deleteComment({
+		const result = await deleteComment({
 			variables: { commentId: comment_id },
 		})
 		// const thread = await commentMutatationsApi.findOneOrCreateOneThread({
