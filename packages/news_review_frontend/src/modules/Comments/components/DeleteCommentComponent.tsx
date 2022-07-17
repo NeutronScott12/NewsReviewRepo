@@ -22,7 +22,6 @@ export const DeleteCommentComponent = ({
 		skip: 0,
 		sort: Sort.Desc,
 		thread_id: '50e11d1f-9d10-4688-a110-e02788f331a0',
-		cache: client.client.cache,
 	})
 
 	const delete_comment = async (comment_id: string) => {

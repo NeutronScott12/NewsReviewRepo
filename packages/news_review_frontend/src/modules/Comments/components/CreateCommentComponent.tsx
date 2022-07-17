@@ -29,7 +29,6 @@ export const CreateCommentComponent: React.FC<ICreateCommentComponent> = ({
 			skip: 0,
 			sort: Sort.Desc,
 			client: client.client,
-			thread_id: '50e11d1f-9d10-4688-a110-e02788f331a0',
 		}
 	)
 

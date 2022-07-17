@@ -57,10 +57,12 @@ export const CommentComponent: React.FC<ICommentComponent> = ({ title }) => {
 		<div>
 			<h1>Comment Component</h1>
 			<CreateCommentComponent thread_id={thread_id} />
-			<CommentGroup
-				comments={data.fetch_comments_by_thread_id.comments}
-				thread_id={thread_id}
-			/>
+			{data && data.fetch_comments_by_thread_id.comments ? (
+				<CommentGroup
+					comments={data && data.fetch_comments_by_thread_id.comments}
+					thread_id={thread_id}
+				/>
+			) : null}
 		</div>
 	)
 }

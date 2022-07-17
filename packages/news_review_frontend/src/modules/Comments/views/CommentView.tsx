@@ -6,6 +6,7 @@ import { CreateReplyComponent } from '../components/CreateReplyComponent'
 import { DeleteCommentComponent } from '../components/DeleteCommentComponent'
 import { EditCommmentComponent } from '../components/EditCommentComponent'
 import { IComment } from '../types'
+import { ReportCommentComponent } from '../components/ReportCommentComponent'
 
 interface ICommentView {
 	comment: IComment
@@ -51,6 +52,7 @@ export const CommentView: React.FC<ICommentView> = ({ comment, thread_id }) => {
 							}
 							replied_to_id={comment.author.id}
 						/>
+						<ReportCommentComponent comment_id={comment.id} />
 					</section>
 				</Grid>
 			</Grid>
