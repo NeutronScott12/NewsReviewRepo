@@ -1,7 +1,7 @@
 import React from 'react'
 import { useFormik } from 'formik'
 import { Link, useNavigate } from 'react-router-dom'
-import { useBinaryAuthMutations } from '@thelasthurrah/common'
+import { useBinaryAuthMutations, useLogin } from '@thelasthurrah/common'
 import { Container, TextField, Button } from '@mui/material'
 
 import { loginValidation } from '../helpers/validations'
@@ -18,7 +18,8 @@ interface ILoginFormValues {
 
 export const LoginForm = () => {
 	const navigate = useNavigate()
-	const client = useBinaryAuthMutations()
+	const binary = useBinaryAuthMutations()
+	const [login] = useLogin({ client: binary.client })
 	const [createUser] = useCreateUserMutation()
 	const { setErrorMessage, setError, checkError, errorMessage } =
 		useErrorAndSuccess()
@@ -41,7 +42,15 @@ export const LoginForm = () => {
 			console.log(email, password)
 
 			try {
-				const result = await client.login({ email, password })
+				const result = await login({
+					variables: {
+						loginInput: {
+							password,
+							email,
+							application_short_name: 'first-application',
+						},
+					},
+				})
 
 				if (result.data.login_user.success) {
 					if (result.data.login_user.two_factor_authentication) {

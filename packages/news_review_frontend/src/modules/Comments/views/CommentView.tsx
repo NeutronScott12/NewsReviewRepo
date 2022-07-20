@@ -7,6 +7,7 @@ import { DeleteCommentComponent } from '../components/DeleteCommentComponent'
 import { EditCommmentComponent } from '../components/EditCommentComponent'
 import { IComment } from '../types'
 import { ReportCommentComponent } from '../components/ReportCommentComponent'
+import { CommentVoteComponent } from '../components/CommentVoteComponent'
 
 interface ICommentView {
 	comment: IComment
@@ -34,7 +35,8 @@ export const CommentView: React.FC<ICommentView> = ({ comment, thread_id }) => {
 						{comment.plain_text_body}
 					</p>
 					<p style={{ textAlign: 'left', color: 'gray' }}>
-						{displayDate(comment.created_at)}
+						{displayDate(comment.created_at)} |{' '}
+						{comment.up_vote.length}
 					</p>
 					<section>
 						<DeleteCommentComponent comment_id={comment.id} />
@@ -53,6 +55,7 @@ export const CommentView: React.FC<ICommentView> = ({ comment, thread_id }) => {
 							replied_to_id={comment.author.id}
 						/>
 						<ReportCommentComponent comment_id={comment.id} />
+						<CommentVoteComponent comment_id={comment.id} />
 					</section>
 				</Grid>
 			</Grid>
