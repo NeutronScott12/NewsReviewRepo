@@ -1,7 +1,7 @@
 import { Button } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { CommentComponent } from '../../Comments/components/CommentComponent'
+import { CommentContainer } from '../../Comments/CommentContainer'
 
 interface IArticleView {
 	title: string
@@ -32,7 +32,7 @@ export const ArticleView: React.FC<IArticleView> = ({
 			</h3>
 			<p>{plain_text_body}</p>
 
-			<CommentComponent title={title} />
+			<CommentContainer title={title} />
 		</div>
 	)
 }

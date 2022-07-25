@@ -8,13 +8,19 @@ import { EditCommmentComponent } from '../components/EditCommentComponent'
 import { IComment } from '../types'
 import { ReportCommentComponent } from '../components/ReportCommentComponent'
 import { CommentVoteComponent } from '../components/CommentVoteComponent'
+import { DeleteReplyComment } from '../components/DeleteReplyCommment'
 
 interface ICommentView {
 	comment: IComment
 	thread_id: string
+	reply: boolean
 }
 
-export const CommentView: React.FC<ICommentView> = ({ comment, thread_id }) => {
+export const CommentView: React.FC<ICommentView> = ({
+	comment,
+	thread_id,
+	reply,
+}) => {
 	const displayDate = (date: string) => {
 		const result = String(dayJs(date))
 
@@ -39,7 +45,16 @@ export const CommentView: React.FC<ICommentView> = ({ comment, thread_id }) => {
 						{comment.up_vote.length}
 					</p>
 					<section>
-						<DeleteCommentComponent comment_id={comment.id} />
+						{reply ? (
+							<DeleteReplyComment
+								parent_id={
+									comment.parent_id ? comment.parent_id : ''
+								}
+								comment_id={comment.id}
+							/>
+						) : (
+							<DeleteCommentComponent comment_id={comment.id} />
+						)}
 						<EditCommmentComponent
 							thread_id={thread_id}
 							comment_id={comment.id}

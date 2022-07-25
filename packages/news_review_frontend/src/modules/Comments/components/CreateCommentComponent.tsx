@@ -21,7 +21,7 @@ export const CreateCommentComponent: React.FC<ICreateCommentComponent> = ({
 	const client = useBinaryCommentQueries()
 	const [createComment] = useCreateComment(
 		{
-			thread_id: '50e11d1f-9d10-4688-a110-e02788f331a0',
+			thread_id: '7f89555c-d436-4f40-ae26-536f314ba3a0',
 		},
 		{
 			application_short_name: 'first-application',
@@ -48,7 +48,7 @@ export const CreateCommentComponent: React.FC<ICreateCommentComponent> = ({
 				createCommentInput: {
 					json_body: [{}],
 					plain_text_body: data.body,
-					application_id: '6064eb0c-08c9-4dea-87e7-89574a210644',
+					application_id: 'd2f58a0e-8d88-4677-90f4-915a4d333401',
 					thread_id,
 				},
 			},

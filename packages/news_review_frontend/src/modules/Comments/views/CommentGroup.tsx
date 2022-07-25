@@ -21,6 +21,7 @@ export const CommentGroup: React.FC<ICommentGroup> = ({
 							comment={comment}
 							thread_id={thread_id}
 							key={comment.id}
+							reply={false}
 						/>
 						<Container>
 							{comment.replies.map((reply) => {
@@ -30,6 +31,7 @@ export const CommentGroup: React.FC<ICommentGroup> = ({
 										comment={reply}
 										thread_id={thread_id}
 										key={reply.id}
+										reply={true}
 									/>
 								)
 							})}

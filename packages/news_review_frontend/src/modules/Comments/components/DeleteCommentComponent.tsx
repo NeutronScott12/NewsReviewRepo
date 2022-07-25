@@ -21,7 +21,7 @@ export const DeleteCommentComponent = ({
 		limit: 10,
 		skip: 0,
 		sort: Sort.Desc,
-		thread_id: '50e11d1f-9d10-4688-a110-e02788f331a0',
+		thread_id: '7f89555c-d436-4f40-ae26-536f314ba3a0',
 	})
 
 	const delete_comment = async (comment_id: string) => {

@@ -16,7 +16,7 @@ export const CommentVoteComponent: React.FC<ICommentVoteComponent> = ({
 }) => {
 	const binary = useBinaryCommentQueries()
 	const [upvote] = useUpVoteComment({
-		thread_id: '50e11d1f-9d10-4688-a110-e02788f331a0',
+		thread_id: '7f89555c-d436-4f40-ae26-536f314ba3a0',
 		client: binary.client,
 		application_short_name: 'first-application',
 		limit: 10,

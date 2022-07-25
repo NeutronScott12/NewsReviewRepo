@@ -1,7 +1,7 @@
 import React from 'react'
 import { useFormik } from 'formik'
 import { Link, useNavigate } from 'react-router-dom'
-import { useBinaryAuthMutations, useLogin } from '@thelasthurrah/common'
+import { useLogin } from '@thelasthurrah/common'
 import { Container, TextField, Button } from '@mui/material'
 
 import { loginValidation } from '../helpers/validations'
@@ -18,8 +18,7 @@ interface ILoginFormValues {
 
 export const LoginForm = () => {
 	const navigate = useNavigate()
-	const binary = useBinaryAuthMutations()
-	const [login] = useLogin({ client: binary.client })
+	const [login] = useLogin()
 	const [createUser] = useCreateUserMutation()
 	const { setErrorMessage, setError, checkError, errorMessage } =
 		useErrorAndSuccess()
@@ -52,12 +51,13 @@ export const LoginForm = () => {
 					},
 				})
 
-				if (result.data.login_user.success) {
+				if (result && result.data && result.data.login_user.success) {
 					if (result.data.login_user.two_factor_authentication) {
 						navigate('/2fa', { replace: true, state: { email } })
 					} else {
 						localStorage.setItem(
 							'binary-stash-token',
+							//@ts-ignore
 							result.data.login_user.token
 						)
 
@@ -73,6 +73,7 @@ export const LoginForm = () => {
 						await createUser({
 							variables: {
 								createUserInput: {
+									//@ts-ignore
 									username: result.data.login_user.username,
 								},
 							},

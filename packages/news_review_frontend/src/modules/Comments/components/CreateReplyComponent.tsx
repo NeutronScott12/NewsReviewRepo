@@ -49,7 +49,7 @@ export const CreateReplyComponent: React.FC<ICreateReplyComponent> = ({
 				CreateReplyCommentInput: {
 					plain_text_body: data.body,
 					json_body: [{}],
-					application_id: '6064eb0c-08c9-4dea-87e7-89574a210644',
+					application_id: 'd2f58a0e-8d88-4677-90f4-915a4d333401',
 					thread_id,
 					parent_id,
 					replied_to_id,
