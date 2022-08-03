@@ -1,5 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql'
-import { StandardResponseModel } from '@thelasthurrah/the-last-hurrah-shared'
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 import {
     ForbiddenException,
     InternalServerErrorException,
@@ -13,6 +12,8 @@ import {
     CurrentUser,
     ICurrentUser,
 } from '@thelasthurrah/the-last-hurrah-shared'
+import { StandardResponseModel } from '../../../common/types'
+
 import { FetchArticleInput } from '../dto/inputs/fetch_article.input'
 import { RemoveArticleInput } from '../dto/inputs/remove-article.input'
 import { CaslAbilityFactory } from '../../../casl/casl-ability.factory'

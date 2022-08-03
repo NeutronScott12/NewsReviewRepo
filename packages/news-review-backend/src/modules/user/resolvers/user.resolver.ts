@@ -1,9 +1,7 @@
 import { InternalServerErrorException } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
-import {
-    ICurrentUser,
-    StandardResponseModel,
-} from '@thelasthurrah/the-last-hurrah-shared'
+import { ICurrentUser } from '@thelasthurrah/the-last-hurrah-shared'
+import { StandardResponseModel } from '../../../common/types'
 
 import { CurrentUser } from '../../auth/guards'
 import { CreateUserInput } from '../dtos/inputs/create-user.input'
