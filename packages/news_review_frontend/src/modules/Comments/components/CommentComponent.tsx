@@ -10,6 +10,7 @@ import { CommentGroup } from '../views/CommentGroup'
 interface ICommentComponent {
 	title: string
 	thread_id: string
+	thread_closed: boolean
 }
 
 export enum Sort {
